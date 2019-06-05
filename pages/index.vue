@@ -9,7 +9,10 @@
         class="home__newsletter">
         <newsletter 
           title="Get your FREE Media Kit"
-          description="Sign up to get your free Media Kit template" />
+          description="Sign up to download your free Media Kit template" />
+
+        <url-form />
+        {{ websiteData }}
       </div>
     </div>
     <gt-footer />
@@ -17,11 +20,10 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
 import { localStorageMixin } from '~/mixins/localStorageMixin'
-import { getAge, getAgeString } from '~/utils/date'
-import Notification from '../components/Notification/notification'
-import Newsletter from '../components/Newsletter/newsletter'
+const axios = require('axios')
+const CircularJSON = require('circular-json')
+const cheerio = require('cheerio')
 
 export default {
   name: 'Index',
@@ -30,18 +32,30 @@ export default {
   scrollToTop: true,
   data() {
     return {
-      errorMessage: '',
-      show: {
-        stepOne: {
-          birthday: false,
-          howItWorks: false,
-          progress: false
-        }
-      }
+      $: ''
+    }
+  },
+  async asyncData({ params, query }) {
+    console.log('query', query)
+    let scrape
+    try {
+      scrape = await axios.get(query.url)
+    } catch (e) {
+      console.error('Failure!')
+      console.error(e)
+    }
+
+    let json = CircularJSON.stringify(scrape);
+    return {
+      websiteData: json
     }
   },
   computed: {},
-  mounted() {},
+  mounted() {
+    this.$ = cheerio.load(this.websiteData)
+    console.log('this.$', this.$)
+    console.log(this.$("title").text());
+  },
   methods: {}
 }
 </script>

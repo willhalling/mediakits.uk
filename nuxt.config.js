@@ -121,7 +121,7 @@ module.exports = {
     }
   },
   router: {
-    //middleware: 'pages'
+    middleware: 'pages'
   },
   server: {
     port: 5500, // default: 3000
