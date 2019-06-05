@@ -117,7 +117,7 @@ $heroHeight: 450px;
   }
 }
 
-@include media-query('medium') {
+@include media-query('small') {
   .hero {
     min-height: $heroHeight;
     &__container {

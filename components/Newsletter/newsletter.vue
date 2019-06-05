@@ -27,6 +27,12 @@
     <notification 
       v-if="success" 
       :message="success" />
+    <div v-if="success">
+      <h3 class="Newsletter__heading">Download your free Media Kit&hellip;</h3>
+      <p> <a
+        href="./download/Blog-Media-Press-Kit-Template-qIQ6zYna1msx1N4h.zip"
+        target="_blank">https://mediakits.uk/download/Blog-Media-Press-Kit-Template-qIQ6zYna1msx1N4h.zip</a></p>
+    </div>
   </div>
 </template>
 
@@ -77,9 +83,10 @@ export default {
     newsletterSignup() {
       console.log('newsletterSignup')
       this.signUpUser(this.email)
-        .then(() => {
+        .then(response => {
+          console.log('signUpUser response', response)
           this.error = ''
-          this.success = 'You have successfully signed up.\n\nCheck your email for a link to download your Media Kit.'
+          this.success = 'You have successfully signed up'
         })
         .catch(error => {
           this.error = error.message
@@ -123,7 +130,7 @@ export default {
     .Newsletter__submit {
       border-color: #535353;
       background-color: #262626;
-      color: #FFF;
+      color: #fff;
     }
   }
 }

@@ -9,7 +9,7 @@
         class="home__newsletter">
         <newsletter 
           title="Get your FREE Media Kit"
-          description="Sign up to get your Media Kit template delivered straight to your inbox" />
+          description="Sign up to get your free Media Kit template" />
       </div>
     </div>
     <gt-footer />

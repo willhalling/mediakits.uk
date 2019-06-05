@@ -28,37 +28,25 @@ module.exports = {
         rel: 'preload',
         as: 'font',
         crossorigin: 'anonymous',
-        href: '/fonts/DigitalReadoutUpright.woff2'
+        href: '/fonts/Roboto-Light.woff2'
       },
       {
         rel: 'preload',
         as: 'font',
         crossorigin: 'anonymous',
-        href: '/fonts/Monoton-Regular.woff2'
+        href: '/fonts/Roboto-Regular.woff2'
       },
       {
         rel: 'preload',
         as: 'font',
         crossorigin: 'anonymous',
-        href: '/fonts/PressStart2P-Regular.woff2'
-      },
-      {
-        rel: 'preload',
-        as: 'font',
-        crossorigin: 'anonymous',
-        href: '/fonts/AlfaSlabOne-Regular.woff2'
+        href: '/fonts/Roboto-Bold.woff2'
       },
       {
         rel: 'preload',
         as: 'font',
         crossorigin: 'anonymous',
         href: '/fonts/VivaBeautiful.woff2'
-      },
-      {
-        rel: 'preload',
-        as: 'font',
-        crossorigin: 'anonymous',
-        href: '/fonts/JustAnotherHand-Regular.woff2'
       }
     ]
   },
