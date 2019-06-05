@@ -1,0 +1,34 @@
+@import "./_variables.scss";
+@import "./_mixins.scss";
+
+.homepage {
+  &__text {
+    color: #666;
+  }
+  &__canvas {
+    position: relative;
+    margin: inherit auto;
+  }
+  .gratitudeForm {
+    padding: 0 $padding;
+  }
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 0.25s ease;
+}
+
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
+{
+  opacity: 0.5;
+}
+
+@include media-query('medium') {
+  .homepage {
+    padding: 0 $padding;
+    .gratitudeForm {
+      padding: 0;
+    }
+    right: auto !important;
+  }
+}

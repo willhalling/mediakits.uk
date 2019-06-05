@@ -1,0 +1,135 @@
+@import "./reset.scss";
+@import "_colours.scss";
+@import "_breakpoints.scss";
+@import "_grid.scss";
+@import "_helpers.scss";
+@import "_fonts.scss";
+@import "_layout.scss";
+@import "_scroll-bar.scss";
+@import "_transitions.scss";
+@import "_mixins.scss";
+
+html {
+  @include media-query('medium') {
+    overflow-y: scroll;
+  }
+}
+html, body, .app {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-size: 14px;
+  font-family: $primaryFont;
+  font-weight: 100;
+  font-style: normal;
+  color: $dark-grey;
+  @include media-query('medium') {
+    font-size: 16px;
+  }
+}
+
+.container {
+  max-width: $siteWidth;
+  margin: 0 auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $tertiaryFont;
+  letter-spacing: 0.03em;
+  margin-bottom: 1.25rem;
+  color: #262626;
+}
+
+h1 {
+  font-size: 2.5em;
+}
+
+h2 {
+  font-size: 2em
+}
+
+h3 {
+  font-size: 1.75em
+}
+
+h4 {
+  font-size: 1.5em
+}
+
+h5 {
+  font-size: 1.25em
+}
+
+h6 {
+  font-size: 1em
+}
+
+p {
+  margin-bottom: $padding;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
+}
+
+a {
+  // font-family: 'FuturaPT-Medium', Helvetica, Arial, sans-serif;
+  color: #000;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.page {
+  &__content {
+    a {
+      color: #000;
+      padding: 0 0 0.05em;
+      border-bottom: 2px solid #000;
+      letter-spacing: 0.05em;
+      transition: all $transition;
+      &:hover, &:focus {
+        text-decoration: none;
+        background-color: #FFF;
+      }
+    }
+  }
+}
+
+// blog posts
+.content {
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: $padding / 2;
+  }
+  ol {
+    counter-reset: li;
+    margin-top: $padding;
+    li {
+      list-style: none;
+      margin: 0 0 $padding $padding * 2;
+      line-height: em(35, 14);
+      padding-left: $padding / 2;
+      &:before {
+        counter-increment: li;
+        content: counter(li) "";
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 0;
+        margin-left: em(-50, 14);
+        color: $black;
+        font-size: $text-xxs;
+        font-weight: 700;
+        width: em(35, 14);
+        height: em(35, 14);
+        border: 3px solid $black;
+        border-radius: 50%;
+        font-family: 'FuturaPT-Medium', Helvetica, Arial, sans-serif;
+      }
+    }
+  }
+}

@@ -1,0 +1,11 @@
+/**
+ * Util used when posting to Netlify
+ */
+
+export function encode(data) {
+  return Object.keys(data)
+      .map(
+          key => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`
+      )
+      .join('&')
+}

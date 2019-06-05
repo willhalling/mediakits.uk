@@ -1,0 +1,11 @@
+<template>
+  <g>
+    <polygon class="cls-1" points="10 38.63 20 38.63 20 28.63 10 38.63"/><polygon class="cls-2" points="0 21.17 10 21.17 10 11.17 0 21.17"/><rect class="cls-2" x="10" y="40" width="10" height="10"/><polygon class="cls-3" points="10 0 10 10 20 0 10 0"/><rect class="cls-4" x="10" y="11.17" width="10" height="10"/><circle class="cls-5" cx="18.95" cy="3.34" r="0.5"/><circle class="cls-5" cx="18.95" cy="5.34" r="0.5"/><circle class="cls-5" cx="18.95" cy="7.34" r="0.5"/><circle class="cls-5" cx="18.95" cy="9.34" r="0.5"/><circle class="cls-5" cx="18.95" cy="11.34" r="0.5"/><circle class="cls-5" cx="16.95" cy="3.34" r="0.5"/><circle class="cls-5" cx="16.95" cy="5.34" r="0.5"/><circle class="cls-5" cx="16.95" cy="7.34" r="0.5"/><circle class="cls-5" cx="16.95" cy="9.34" r="0.5"/><circle class="cls-5" cx="16.95" cy="11.34" r="0.5"/><circle class="cls-5" cx="14.95" cy="3.34" r="0.5"/><circle class="cls-5" cx="14.95" cy="5.34" r="0.5"/><circle class="cls-5" cx="14.95" cy="7.34" r="0.5"/><circle class="cls-5" cx="14.95" cy="9.34" r="0.5"/><circle class="cls-5" cx="14.95" cy="11.34" r="0.5"/><circle class="cls-5" cx="12.95" cy="3.34" r="0.5"/><circle class="cls-5" cx="12.95" cy="5.34" r="0.5"/><circle class="cls-5" cx="12.95" cy="7.34" r="0.5"/><circle class="cls-5" cx="12.95" cy="9.34" r="0.5"/><circle class="cls-5" cx="12.95" cy="11.34" r="0.5"/><circle class="cls-5" cx="10.95" cy="3.34" r="0.5"/><circle class="cls-5" cx="10.95" cy="5.34" r="0.5"/><circle class="cls-5" cx="10.95" cy="7.34" r="0.5"/><circle class="cls-5" cx="10.95" cy="9.34" r="0.5"/><circle class="cls-5" cx="10.95" cy="11.34" r="0.5"/><path class="cls-5" d="M11,35.38a.38.38,0,0,1-.38-.38V18.62a.37.37,0,0,1,.38-.37.36.36,0,0,1,.37.37V35A.37.37,0,0,1,11,35.38Z"/><path class="cls-5" d="M17,35.38a.38.38,0,0,1-.38-.38V18.62a.37.37,0,0,1,.38-.37.36.36,0,0,1,.37.37V35A.37.37,0,0,1,17,35.38Z"/><path class="cls-5" d="M19,35.38a.38.38,0,0,1-.38-.38V18.62a.37.37,0,0,1,.38-.37.36.36,0,0,1,.37.37V35A.37.37,0,0,1,19,35.38Z"/><path class="cls-5" d="M13,35.38a.38.38,0,0,1-.38-.38V18.62a.37.37,0,0,1,.38-.37.36.36,0,0,1,.37.37V35A.37.37,0,0,1,13,35.38Z"/><path class="cls-5" d="M15,35.38a.38.38,0,0,1-.38-.38V18.62a.37.37,0,0,1,.38-.37.36.36,0,0,1,.37.37V35A.37.37,0,0,1,15,35.38Z"/>
+  </g>
+</template>
+
+<script>
+export default {
+  name: 'SvgNumberOne'
+}
+</script>

@@ -1,0 +1,41 @@
+@mixin border($color) {
+  border: {
+    color: $color;
+    radius: 0;
+    width: 1px;
+    style: solid;
+  }
+}
+
+@mixin background($color, $image, $size, $position) {
+  background: {
+    color: $color;
+    image: url($image);
+    size: $size;
+    position: $position;
+    repeat: no-repeat;
+  }
+}
+
+@mixin media-query( $name ) {
+  $break: map-get( $breakpoints, $name );
+
+  @if $break != null {
+    @media #{$break} {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint does not exist: #{$name}";
+  }
+}
+
+$browser-context: 16; // Default
+
+// https://css-tricks.com/snippets/sass/px-to-em-functions/
+@function em($pixels, $context: $browser-context) {
+  @return #{$pixels/$context}em;
+}
+
+@function z($label) {
+  @return map-get($zindex,$label);
+}

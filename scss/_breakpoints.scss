@@ -1,0 +1,11 @@
+// --------------------------------------------------
+// Grid Breakpoints
+// --------------------------------------------------
+
+$breakpoints: (
+  "small":    "(min-width: 700px)",
+  "medium":   "(min-width: 1024px)",
+  "large":    "(min-width: 1280px)",
+  "extra-large":  "(min-width: 1440px)",
+  "mobile-only":  "(max-width: 700px)"
+);

@@ -1,0 +1,25 @@
+@import "./_variables.scss";
+
+@font-face {
+  font-family: 'Roboto-Light';
+  font-display: fallback;
+  src: local('Roboto-Light'), url('/fonts/Roboto-Light.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto-Regular';
+  font-display: fallback;
+  src: local('Roboto-Regular'), url('/fonts/Roboto-Regular.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Roboto-Bold';
+  font-display: fallback;
+  src: local('Roboto-Bold'), url('/fonts/Roboto-Bold.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'VivaBeautiful';
+  font-display: fallback;
+  src: local('VivaBeautiful'), url('/fonts/VivaBeautiful.woff2') format('woff2');
+}

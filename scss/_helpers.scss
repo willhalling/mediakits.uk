@@ -1,0 +1,260 @@
+.gt-height-100 {
+  height: 100%;
+}
+
+.gt-min-height-100 {
+  min-height: 100px;
+}
+
+// Padding
+
+@include media-query('mobile-only') {
+  .gt-padding-large\@untilDesktop {
+    padding: $padding * 2;
+  }
+}
+
+.gt-padding {
+  padding: $padding;
+}
+
+.gt-padding-1\/4 {
+  padding: $padding / 4;
+}
+
+.gt-padding-top {
+  padding-top: $padding;
+}
+
+.gt-padding-top-1\/2 {
+  padding-top: $padding / 2;
+}
+
+.gt-padding-top-1\/4 {
+  padding-top: $padding / 4;
+}
+
+.gt-padding-bottom {
+  padding-bottom: $padding;
+}
+
+.gt-padding-bottom-large {
+  padding-bottom: $padding * 2 !important;
+}
+
+.gt-padding-bottom-xlarge {
+  padding-bottom: $padding * 4 !important;
+}
+
+.gt-padding-bottom-1\/2 {
+  padding-bottom: $padding / 2;
+}
+
+// Margins
+
+.gt-margin-bottom {
+  margin-bottom: $padding;
+}
+
+.gt-margin-bottom-large {
+  margin-bottom: $padding * 2;
+}
+
+.gt-margin-bottom-x-large {
+  margin-bottom: $padding * 4;
+}
+
+.gt-margin-auto {
+  margin: 0 auto;
+}
+
+// Typography
+
+.gt-lowercase {
+  text-transform: lowercase;
+}
+
+.gt-text-underline {
+  text-decoration: underline;
+}
+
+// Colours
+
+.gt-colour-black {
+  color: $black;
+}
+
+.gt-colour-white {
+  color: $white;
+}
+
+.gt-colour-green {
+  color: $po-green;
+}
+
+.gt-background-white {
+  background-color: $white;
+}
+
+.gt-background-black {
+  background-color: $black;
+}
+
+.gt-background-red {
+  background-color: $scarlet;
+}
+
+.gt-background-medium-grey {
+  background-color: $medium-grey;
+}
+
+.gt-background-light-grey {
+  background-color: $light-grey;
+}
+
+.gt-background-secondary {
+  background-color: #ffe6ee;
+}
+
+// Flex
+
+.gt-flex {
+  display: flex;
+}
+
+.gt-align-items-center {
+  align-items: center;
+}
+
+.gt-justify-content-space-around {
+  justify-content: space-around;
+}
+
+.gt-justify-content-space-between {
+  justify-content: space-between;
+}
+
+.gt-justify-content-space-evenly {
+  justify-content: space-evenly;
+}
+
+.gt-justify-content-flex-end {
+  justify-content: flex-end;
+}
+
+.gt-justify-content-center {
+  justify-content: center;
+}
+
+.gt-flex-direction-column {
+  flex-direction: column;
+}
+
+// Other
+
+.gt-hidden {
+  overflow: hidden;
+  position: absolute;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+}
+
+.gt-visibility-hidden {
+  visibility: hidden;
+}
+
+.gt-text-center {
+  text-align: center;
+}
+
+.gt-text-right {
+  text-align: right;
+}
+
+.gt-cursor-pointer {
+  cursor: pointer;
+}
+
+// Widths
+
+.gt-max-width-46 {
+  max-width: 46px;
+}
+
+.gt-max-width-72 {
+  max-width: 72px;
+}
+
+.gt-max-width-150 {
+  max-width: 150px;
+}
+
+.gt-max-width-320 {
+  max-width: 320px;
+}
+
+.gt-max-width-550 {
+  max-width: 550px;
+}
+
+.gt-max-width-50-percent {
+  max-width: 50%;
+}
+
+.gt-width-full {
+  width: 100%;
+}
+
+// Borders
+
+.gt-border-white {
+  border: 1px solid $white;
+}
+
+.gt-border-left-none {
+  border-left: 0 !important;
+}
+
+.gt-border-top-none {
+  border-top: 0 !important;
+}
+
+.gt-border-right-none {
+  border-right: 0 !important;
+}
+
+.gt-border-bottom-none {
+  border-left: 0 !important;
+}
+
+// Rotations
+
+.gt-image-rotate-90 {
+  display: block;
+  width: 100%;
+  position: relative;
+  transform: rotate(90deg);
+}
+
+// Links
+
+.gt--highlight {
+  display: inline-block;
+  position: relative;
+  z-index: 1;
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+    right: -10px;
+    height: 13px;
+    width: 100%;
+    background: #25c6fe;
+    z-index: -1;
+  }
+}

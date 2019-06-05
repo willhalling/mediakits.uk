@@ -1,0 +1,33 @@
+@import "../scss/_variables.scss";
+
+$gt-scroll-bar-colour: $dark-orange;
+
+.gt-scroll {
+
+  &-bar {
+
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $gt-scroll-bar-colour;
+    }
+
+    &--scroll-y {
+      height: 100%;
+      overflow-y: scroll;
+    }
+
+    &--scroll-x {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+  }
+
+  &-disable {
+    overflow: hidden;
+  }
+
+}

@@ -1,0 +1,53 @@
+@mixin border($color) {
+  border: {
+    color: $color;
+    radius: 0;
+    width: 1px;
+    style: solid;
+  }
+}
+
+@mixin background($color, $image, $size, $position) {
+  background: {
+    color: $color;
+    image: url($image);
+    size: $size;
+    position: $position;
+    repeat: no-repeat;
+  }
+}
+
+// --------------------------------------------------
+// Grid Breakpoints
+// --------------------------------------------------
+
+$breakpoints: (
+        "small":    "(min-width: 700px)",
+        "medium":   "(min-width: 1024px)",
+        "large":    "(min-width: 1280px)",
+        "extra-large":  "(min-width: 1440px)",
+        "mobile-only":  "(max-width: 700px)"
+);
+
+@mixin media-query( $name ) {
+  $break: map-get( $breakpoints, $name );
+
+  @if $break != null {
+    @media #{$break} {
+      @content;
+    }
+  } @else {
+    @warn "Breakpoint does not exist: #{$name}";
+  }
+}
+
+$browser-context: 16; // Default
+
+// https://css-tricks.com/snippets/sass/px-to-em-functions/
+@function em($pixels, $context: $browser-context) {
+  @return #{$pixels/$context}em;
+}
+
+@function z($label) {
+  @return map-get($zindex,$label);
+}
