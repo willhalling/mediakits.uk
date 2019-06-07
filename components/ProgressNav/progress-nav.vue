@@ -66,18 +66,18 @@
       {{ nextText }}
     </button-cta>
     <button-cta
-            v-if="step === 3"
-            theme="cta"
-            round
-            pulse
-            no-border
-            @click="save">
+      v-if="step === 3"
+      theme="cta"
+      round
+      pulse
+      no-border
+      @click="save">
       <svg-base
-              slot="icon"
-              :width="32"
-              :height="32"
-              icon-name="SvgDownload"
-              colour="#000"
+        slot="icon"
+        :width="32"
+        :height="32"
+        icon-name="SvgDownload"
+        colour="#000"
       >
         <component is="SvgDownload" />
       </svg-base>
@@ -87,6 +87,12 @@
 </template>
 
 <script>
+// import jsPDF from 'jspdf';
+
+if (process.browser) {
+  const jsPDF = require('jspdf')
+}
+
 export default {
   name: 'ProgressNav',
   props: {
@@ -136,16 +142,33 @@ export default {
     },
     dataURLtoBlob(dataurl) {
       let arr = dataurl.split(','),
-              mime = arr[0].match(/:(.*?);/)[1],
-              bstr = atob(arr[1]),
-              n = bstr.length,
-              u8arr = new Uint8Array(n)
+        mime = arr[0].match(/:(.*?);/)[1],
+        bstr = atob(arr[1]),
+        n = bstr.length,
+        u8arr = new Uint8Array(n)
       while (n--) {
         u8arr[n] = bstr.charCodeAt(n)
       }
       return new Blob([u8arr], { type: mime })
     },
     save() {
+      const downloadImage = sessionStorage.getItem('gt_canvas_img')
+      //const a = document.createElement('a')
+      //const blob = this.dataURLtoBlob(downloadImage)
+      if (process.browser) {
+        const jsPDF = require('jspdf')
+        const pdf = new jsPDF('p', 'mm', 'a4')
+        const width = pdf.internal.pageSize.getWidth()
+        const height = pdf.internal.pageSize.getHeight()
+        console.log('pdf width height', width, height)
+        pdf.addImage(downloadImage, 'JPEG', 0, 0, width, height)
+        pdf.save('download.pdf')
+      }
+      //a.href = window.URL.createObjectURL(blob)
+      //a.download = `${this.imageSlug}.jpeg`
+      //a.click()
+    },
+    saveImage() {
       const downloadImage = sessionStorage.getItem('gt_canvas_img')
       const a = document.createElement('a')
       const blob = this.dataURLtoBlob(downloadImage)

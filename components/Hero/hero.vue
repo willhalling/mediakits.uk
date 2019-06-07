@@ -10,7 +10,7 @@
               <a
                 v-scroll-to="'#newsletter'"
                 class="hero__link"
-                href>Sign Up &darr;</a>
+                href>Start &darr;</a>
             </p>
           </div>
         </transition>

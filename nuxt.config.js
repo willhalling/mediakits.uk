@@ -125,6 +125,6 @@ module.exports = {
   },
   server: {
     port: 5500, // default: 3000
-    //host: '192.168.1.2' // default: localhost
+    // host: '192.168.1.3' // default: localhost
   }
 }

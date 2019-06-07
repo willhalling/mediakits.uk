@@ -197,13 +197,6 @@ export default {
         this.updateCanvas()
       },
       deep: true
-    },
-    // Triggered when user selects birthday in step 1
-    age: {
-      handler() {
-        this.updateCanvas()
-      },
-      deep: true
     }
   },
   mounted() {
@@ -277,25 +270,27 @@ export default {
       }
     },
     updateCanvas() {
-      this.canvas.clear()
+      console.log('update canvas', this.images)
+      //this.canvas.clear()
       this.canvas.backgroundColor = CANVAS_BACKGROUND_COLOUR
       this.resizeCanvas()
 
-      if (this.images && this.images.length === 0) {
-        this.addInstructions()
-        this.addCanvasObjects()
-      }
+      //if (this.images && this.images.length === 0) {
+      this.renderTemplate()
+      //this.addCanvasObjects()
+      //}
 
+      /*
       if (this.isThumb) {
         // Delete all objects (needed to delete instructions when changing font)
         this.canvas.remove(...this.canvas.getObjects())
         return this.drawDateObject()
-      }
+      } */
 
       this.canvas.off('mouse:down')
 
       if (this.images && this.images.length > 0) {
-        this.canvas.clear()
+        //this.canvas.clear()
         this.canvas.backgroundColor = CANVAS_BACKGROUND_COLOUR
         const imagePromises = []
 
@@ -966,7 +961,53 @@ export default {
 
       this.canvas.renderAll()
     },
-    addInstructions() {
+    renderTemplate() {
+
+      // Start Media Kit Template 01
+
+      const headerBackground = new fabric.Rect({
+        left: this.image.width / 4,
+        top: 0,
+        width: this.image.width / 2,
+        height: 300,
+        fill: 'rgba(255,255,255,1)',
+        stroke: 'rgba(34,177,76,1)',
+        strokeWidth: 0
+      })
+
+      const headerText = new fabric.Text('Joe Bloggs', {
+        id: 'headerText',
+        fontFamily: 'BrochaAltW05-Book',
+        fontSize: 128,
+        textAlign: 'center',
+        left: 0,
+        top: 0,
+        fill: '#000' || 'red',
+        stroke: '',
+        charSpacing: 50,
+        width: headerBackground.width
+      })
+      headerText.scaleToWidth(headerBackground.width / 1.25, true)
+
+      let positionObject = getPosition(
+        this.image.width,
+        headerBackground.height,
+        'middle',
+        0,
+        'x',
+        'y'
+      )
+      headerText.setPositionByOrigin(
+        positionObject.coordinates,
+        positionObject.originX,
+        positionObject.originY
+      )
+
+      let headerGroup = new fabric.Group([headerBackground, headerText], {})
+      headerGroup.set('top', 100)
+      this.canvas.add(headerGroup)
+
+      /*
       this.addSvg({
         url: './svgs/other/arrow-up.svg',
         position: {
@@ -982,7 +1023,7 @@ export default {
           top: 130
         },
         fill: CANVAS_FILL_COLOUR
-      })
+      }) */
     },
     deactivateAll() {
       return new Promise(resolve => {
@@ -992,11 +1033,14 @@ export default {
       })
     },
     saveImage() {
+      console.log('saveImage')
+      //this.updateCanvas() // adding here as temp measure as blank when no images uplaoded
       const canvasBase64 = this.canvas.toDataURL({
         format: 'jpeg',
         // default value of `quality` is 1 and varies from 0.1
         quality: this.isGridLayout ? 1.0 : 0.9
       })
+      console.log('canvasBase64', canvasBase64)
       sessionStorage.setItem('gt_canvas_img', canvasBase64)
       // Go to step 3 (final step & download page)
       this.nextStepAction().then(() => {

@@ -9,40 +9,15 @@
       <list
         :items="imageInfo"
         class="gt-margin-bottom-x-large" />
-      <rate-form />
-      <newsletter />
-      <!--  @todo: add share back in when canShare fn supported
-      <div class="gt-flex gt-justify-content-space-evenly">
-        <button-cta
-          v-if="isTouchDevice"
-          theme="cta"
-          round
-          no-border
-          @click="share">
-          <svg-base
-            slot="icon"
-            :width="32"
-            :height="32"
-            icon-name="SvgShareIcon"
-            colour="#000"
-          >
-            <component is="SvgShareIcon" />
-          </svg-base>
-          Share 
-        </button-cta>
-      </div>
-      -->
     </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Newsletter from "../Newsletter/newsletter";
 
 export default {
   name: 'Download',
-  components: {Newsletter},
   data() {
     return {
       downloadImage: null,

@@ -1,7 +1,9 @@
 <template>
-  <div 
+  <form
     :class="classes" 
-    class="UrlForm gt-margin-bottom-x-large">
+    class="UrlForm gt-margin-bottom-x-large"
+    @submit.prevent="submitUrl"
+  >
     <h3 class="UrlForm__heading">Enter URL to start</h3>
     <div 
       v-if="!success" 
@@ -10,14 +12,14 @@
         <field
           v-model="form.url"
           class="UrlForm__field"
-          type="url"
-          placeholder="Enter url"
+          placeholder="URL e.g. https://www.example.com"
+          type="text"
         />
         <button-cta
           aria-label="UrlForm Sign up Submit"
           class="UrlForm__submit"
           radius-right
-          @click.prevent="submitUrl">Submit</button-cta>
+          type="submit">Submit</button-cta>
       </div>
     </div>
     <notification 
@@ -26,7 +28,7 @@
     <notification 
       v-if="success" 
       :message="success" />
-  </div>
+  </form>
 </template>
 
 <script>
@@ -59,15 +61,18 @@ export default {
       }
     }
   },
+  mounted() {
+    this.form.url = this.$route.query.url
+  },
   methods: {
+    getPathFromUrl(url) {
+      return url.split('?')[0]
+    },
     submitUrl() {
-      console.log('submitUrl')
-      this.$axios.get(this.form.url).then(response => {
-        // `response` is an HTTP response object, whose body is contained in it's `data` attribute
-
-        // This will print the HTML source code to the console
-        console.log(response.data)
-      })
+      let url = this.getPathFromUrl(window.location.href)
+      console.log('submit url', url)
+      url = `${url}?url=${this.form.url}`
+      window.location.href = url
     }
   }
 }

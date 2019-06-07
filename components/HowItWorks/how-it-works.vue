@@ -37,17 +37,17 @@ export default {
       steps: [
         {
           name: 'SvgNumberOne',
-          text: "Enter your baby's birthday",
+          text: 'Enter your website address',
           colour: '#132B37'
         },
         {
           name: 'SvgNumberTwo',
-          text: 'Upload photos (up to 6) & choose design',
+          text: 'Add content & edit your design',
           colour: '#132B37'
         },
         {
           name: 'SvgNumberThree',
-          text: 'Download & share photo',
+          text: 'Receive your Media Kit via email',
           colour: '#132B37'
         }
       ]
@@ -89,7 +89,7 @@ export default {
 @import '../../scss/_mixins.scss';
 
 .HowItWorks {
-  color: $white;
+  color: $dark-grey;
   display: grid;
   grid-template-columns: 1fr;
   grid-gap: 50px;

@@ -4,8 +4,8 @@ const state = {
   // Cache version
   version: '',
   image: {
-    width: 1080,
-    height: 1080,
+    width: 2480,
+    height: 3508,
     url: ''
   },
   images: [],

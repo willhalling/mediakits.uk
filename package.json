@@ -25,6 +25,7 @@
     "fabric": "^2.6.0",
     "fabric-customise-controls": "^2.0.1-beta",
     "firebase": "^5.9.2",
+    "jspdf": "^1.5.3",
     "local-storage": "^1.4.2",
     "netlify-cli": "^2.11.5",
     "node-fetch": "^2.3.0",
