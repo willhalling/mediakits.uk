@@ -955,6 +955,14 @@ export default {
       this.renderMediaImage()
     },
     renderTemplateHeader() {
+      const headerBar = new fabric.Rect({
+        left: 0,
+        top: 0,
+        width: this.image.width,
+        height: 25,
+        fill: 'rgba(0,0,0,1)'
+      })
+
       const headerBackground = new fabric.Rect({
         left: this.image.width / 4,
         top: 0,
@@ -997,10 +1005,11 @@ export default {
       headerGroup.set('top', 100)
 
       this.canvas.add(headerGroup)
+      this.canvas.add(headerBar)
     },
     renderTemplateSocialBackground() {
       const socialHeight = 300
-      const socialRadius = 20
+      // const socialRadius = 20
       const socialBackground = new fabric.Rect({
         left: 0,
         top: 0,
@@ -1014,11 +1023,12 @@ export default {
       })
       socialBackground.set('top', 1400 - socialHeight / 2)
       socialBackground.set('left', 0)
+      socialBackground.set('selectable', false)
       this.canvas.add(socialBackground)
     },
     renderTemplateSocial(
       icon = 'facebook',
-      leftOffset = 100,
+      leftOffset = 200,
       username = '@joebloggs',
       text = '5,8k'
     ) {
@@ -1057,9 +1067,9 @@ export default {
             })
 
             let logoGroup = new fabric.Group([logo, logoUsername, logoText], {})
-            logoGroup.set('top', 1320)
+            //logoGroup.set('top', 1320)
             logoGroup.set('left', leftOffset)
-            this.canvas.add(logoGroup)
+            // this.canvas.add(logoGroup)
             resolve(logoGroup)
           }
         )
@@ -1094,6 +1104,7 @@ export default {
         }
       )
       let aboutGroup = new fabric.Group([aboutText, aboutDescription], {})
+      aboutGroup.set('selectable', false)
       this.canvas.add(aboutGroup)
     },
     renderTemplateMyVisitors() {
@@ -1127,10 +1138,11 @@ export default {
         [myVisitorsText, myVisitorsDescription],
         {}
       )
+      myVisitorsGroup.set('selectable', false)
       this.canvas.add(myVisitorsGroup)
     },
     renderTemplateFooter() {
-      const footerHeight = 150
+      const footerHeight = 270
       const footerBackground = new fabric.Rect({
         left: 0,
         top: 0,
@@ -1139,39 +1151,71 @@ export default {
         fill: 'rgba(0,0,0,1)'
       })
       const urlNoProtocol = this.websiteData.url.replace(/^https?\:\/\//i, '')
-      const footerText = new fabric.Text(
-        `${urlNoProtocol} | ${this.websiteData.email}`,
-        {
-          id: 'footerText',
-          fontFamily: 'gill-sans-medium',
-          fontSize: 50,
-          textAlign: 'center',
-          left: 0,
-          top: 0,
-          fill: '#FFF',
-          stroke: '',
-          charSpacing: 100,
-          width: footerBackground.width
-        }
-      )
-      footerText.scaleToWidth(footerBackground.width / 2, true)
+      const addressText = new fabric.Text(urlNoProtocol, {
+        id: 'footerText',
+        fontFamily: 'gill-sans-medium',
+        fontSize: 50,
+        textAlign: 'center',
+        left: 0,
+        top: 0,
+        fill: '#FFF',
+        stroke: '',
+        charSpacing: 100,
+        width: footerBackground.width
+      })
+      const emailText = new fabric.Text(this.websiteData.email, {
+        id: 'footerText',
+        fontFamily: 'gill-sans-medium',
+        fontSize: 50,
+        textAlign: 'center',
+        left: 0,
+        top: 140,
+        fill: '#FFF',
+        stroke: '',
+        charSpacing: 100,
+        width: footerBackground.width
+      })
 
-      let positionObject = getPosition(
+      // footerText.scaleToWidth(footerBackground.width / 2, true)
+
+      let positionAddressObject = getPosition(
         this.image.width,
         footerBackground.height,
-        'middle',
-        0,
+        'bottomLeft',
+        100,
         'x',
         'y'
       )
-      footerText.setPositionByOrigin(
-        positionObject.coordinates,
-        positionObject.originX,
-        positionObject.originY
+
+      let positionEmailObject = getPosition(
+        this.image.width,
+        footerBackground.height,
+        'bottomRight',
+        100,
+        'x',
+        'y'
       )
 
-      let footerGroup = new fabric.Group([footerBackground, footerText], {})
+      addressText.setPositionByOrigin(
+        positionAddressObject.coordinates,
+        positionAddressObject.originX,
+        positionAddressObject.originY
+      )
+
+      emailText.setPositionByOrigin(
+        positionEmailObject.coordinates,
+        positionEmailObject.originX,
+        positionEmailObject.originY
+      )
+
+      //emailText.set
+
+      let footerGroup = new fabric.Group(
+        [footerBackground, addressText, emailText],
+        {}
+      )
       footerGroup.set('top', this.image.height - footerHeight)
+      footerGroup.set('selectable', false)
 
       this.canvas.add(footerGroup)
     },

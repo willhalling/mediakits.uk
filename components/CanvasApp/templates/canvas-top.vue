@@ -212,9 +212,9 @@ export default {
   }
 
   &__edit {
-    background: $primary-background;
+    background: $black;
     border: 1px solid $white;
-    border-top-color: $primary-background;
+    border-top-color: $black;
   }
   &__field {
     background-color: transparent;

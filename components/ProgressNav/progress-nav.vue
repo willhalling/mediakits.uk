@@ -59,7 +59,7 @@
         :width="32"
         :height="32"
         icon-name="SvgArrowNext"
-        colour="#132B37"
+        colour="#FFF"
       >
         <component is="SvgArrowNext" />
       </svg-base>
@@ -77,7 +77,7 @@
         :width="32"
         :height="32"
         icon-name="SvgDownload"
-        colour="#000"
+        colour="#FFF"
       >
         <component is="SvgDownload" />
       </svg-base>

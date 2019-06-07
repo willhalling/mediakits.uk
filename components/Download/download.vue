@@ -1,5 +1,5 @@
 <template>
-  <div class="Download gt-background-secondary">
+  <div class="Download">
     <div>
       <img
         :src="downloadImage"
@@ -74,7 +74,7 @@ export default {
 
 .Download {
   max-width: $siteWidth;
-  padding: $padding;
+  padding: 0 $padding;
   margin: 0 auto;
 }
 

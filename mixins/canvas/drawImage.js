@@ -199,18 +199,54 @@ export const drawImageMixin = {
         this.canvas.add(imageGroup)
         this.renderTemplateHeader()
         this.renderTemplateSocialBackground()
-        this.renderTemplateSocial('facebook').then(facebookGroup => {
-          console.log('logoGroup width', facebookGroup)
-          const logoFacebookOffset =
-            facebookGroup.width + facebookGroup.left + 100
-          this.renderTemplateSocial('twitter', logoFacebookOffset).then(
-            twitterGroup => {
-              const logoTwitterOffset = logoFacebookOffset + twitterGroup.width + 100
-              this.renderTemplateSocial('youtube', logoTwitterOffset)
-            }
+
+        const social_networks = [
+          'facebook',
+          'twitter',
+          'youtube',
+        ]
+        const socialPromises = []
+        let socialMediaGroup = new fabric.Group()
+        let networkNameWidth = 0
+        social_networks.forEach((networkName, index) => {
+          socialPromises.push(
+            Promise.resolve(
+              this.renderTemplateSocial(networkName, 550 * index).then(
+                social => {
+                  networkNameWidth += social.width
+                  console.log('networkNameWidth', networkNameWidth)
+                  socialMediaGroup.addWithUpdate(social)
+                }
+              )
+            )
           )
         })
 
+        Promise.all(socialPromises).then(() => {
+          let socialMediaGroupTop = 1320
+          switch(social_networks.length) {
+            case 4:
+              socialMediaGroupTop = 1310
+              break;
+            case 5:
+              socialMediaGroupTop = 1330
+              break;
+            default:
+              socialMediaGroupTop = 1320
+          }
+          socialMediaGroup.set('left', 100)
+          socialMediaGroup.set('top', socialMediaGroupTop)
+          if (social_networks.length < 4) {
+            // offset used to center social items
+            const offset = this.image.width - socialMediaGroup.width
+            socialMediaGroup.set('left', offset / 2)
+          }
+          if (social_networks.length > 3) {
+            socialMediaGroup.scaleToWidth(this.image.width - 200)
+          }
+          socialMediaGroup.set('selectable', false)
+          this.canvas.add(socialMediaGroup)
+        })
         this.renderTemplateMyVisitors()
         this.renderTemplateFooter()
         this.renderTemplateAbout(imageGroup)

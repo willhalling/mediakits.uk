@@ -9,17 +9,18 @@
       class="HowItWorks__item"
     >
       <span class="HowItWorks__circle">
-        <svg-base
-          slot="icon"
-          :width="40"
-          :height="60"
-          :viewbox-width="30"
-          :viewbox-height="51"
-          :icon-name="step.name"
-          :colour="step.colour"
-        >
-          <component :is="step.name" />
-        </svg-base>
+        <img
+          v-if="index === 0"
+          :alt="`Step ${index + 1}`"
+          src="~assets/steps/1.svg">
+        <img
+          v-if="index === 1"
+          :alt="`Step ${index + 1}`"
+          src="~assets/steps/2.svg">
+        <img
+          v-if="index === 2"
+          :alt="`Step ${index + 1}`"
+          src="~assets/steps/3.svg">
       </span>
       <span class="HowItWorks__text">{{ step.text }}</span>
     </li>
@@ -96,7 +97,8 @@ export default {
   text-align: center;
   list-style: none;
   counter-reset: custom-counter;
-  margin: 0;
+  margin: $padding * 5 auto;
+  max-width: $siteWidth;
   padding: 0;
   &__item {
     transition: all 0.66s ease-in-out;
@@ -114,7 +116,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #f3d549;
+    //background-color: #f3d549;
     border-radius: 50%;
     content: '0' counter(custom-counter);
     font-weight: bold;

@@ -4,15 +4,13 @@
     class="home">
     <gt-header />
     <div class="home__container gt-padding-bottom-large">
-      <hero />
-      <how-it-works />
+      <hero v-if="step === 1" />
       <div 
         id="newsletter" 
         class="home__newsletter">
-        <url-form />
-        <pre>
-          {{ websiteData }}
-        </pre>
+        <div v-if="step === 1">
+          <url-form />
+        </div>
         <div v-if="step === 2">
           <canvas-app
             ref="canvasApp"
@@ -22,15 +20,16 @@
             :fonts-ready="true"
           />
         </div>
-        <div v-if="step === 3">
-          <download />
-        </div>
-        <progress-nav
-          :step="step"
-          :disable-save="disableSaveButton"
-          @progress-previous="previousStep"
-          @progress-next="nextStep"/>
       </div>
+      <div v-if="step === 3">
+        <download />
+      </div>
+      <progress-nav
+        :step="step"
+        :disable-save="disableSaveButton"
+        @progress-previous="previousStep"
+        @progress-next="nextStep"/>
+      <how-it-works v-if="step === 1" />
     </div>
     <gt-footer />
   </div>

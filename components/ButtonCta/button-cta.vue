@@ -204,7 +204,7 @@ $button-pulse-timing: 1.5s;
   }
 
   &--pulse {
-    box-shadow: 0 0 0 0 rgba(232, 76, 61, 0.7);
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.4);
     -webkit-animation: pulse $button-pulse-timing infinite cubic-bezier(0.66, 0, 0, 1);
     -moz-animation: pulse $button-pulse-timing infinite cubic-bezier(0.66, 0, 0, 1);
     -ms-animation: pulse $button-pulse-timing infinite cubic-bezier(0.66, 0, 0, 1);
@@ -243,12 +243,13 @@ $button-pulse-timing: 1.5s;
   // Button themes
 
   &--theme--dark {
-    background-color: $primary-background;
+    background-color: $black;
     color: $white;
   }
 
   &--theme--light {
     background-color: $white;
+    border: 1px solid $black;
     color: $button-dark-color;
   }
 
@@ -267,7 +268,7 @@ $button-pulse-timing: 1.5s;
   }
 
   &--theme--cta {
-    background-color: #e57a94;
+    background-color: $black;
   }
 
   &--theme--danger {
@@ -280,22 +281,22 @@ $button-pulse-timing: 1.5s;
 
   @-webkit-keyframes pulse {
     to {
-      box-shadow: 0 0 0 $button-pulse-spacing rgba(232, 76, 61, 0);
+      box-shadow: 0 0 0 $button-pulse-spacing rgba(0, 0, 0, 0);
     }
   }
   @-moz-keyframes pulse {
     to {
-      box-shadow: 0 0 0 $button-pulse-spacing rgba(232, 76, 61, 0);
+      box-shadow: 0 0 0 $button-pulse-spacing rgba(0, 0, 0, 0);
     }
   }
   @-ms-keyframes pulse {
     to {
-      box-shadow: 0 0 0 $button-pulse-spacing rgba(232, 76, 61, 0);
+      box-shadow: 0 0 0 $button-pulse-spacing rgba(0, 0, 0, 0);
     }
   }
   @keyframes pulse {
     to {
-      box-shadow: 0 0 0 $button-pulse-spacing rgba(232, 76, 61, 0);
+      box-shadow: 0 0 0 $button-pulse-spacing rgba(0, 0, 0, 0);
     }
   }
 }
