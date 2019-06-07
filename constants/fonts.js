@@ -36,8 +36,13 @@ export const FONTS = [
     value: 'BrochaAltW05-Book'
   },
   {
-    name: 'Just Another Hand',
-    value: 'Just Another Hand',
-    googleFont: true
+    name: 'gill-sans-medium',
+    value: 'gill-sans-medium',
+    googleFont: false
   },
+  {
+    name: 'gill-sans-bold',
+    value: 'gill-sans-bold',
+    googleFont: false
+  }
 ]

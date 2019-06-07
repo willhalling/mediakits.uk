@@ -2,6 +2,7 @@
   <div 
     id="top" 
     class="home">
+    <gt-header />
     <div class="home__container gt-padding-bottom-large">
       <hero />
       <how-it-works />
@@ -17,6 +18,7 @@
             ref="canvasApp"
             :user-image="userImage"
             :user-images="userImages"
+            :website-data="websiteData"
             :fonts-ready="true"
           />
         </div>
@@ -49,7 +51,47 @@ export default {
   data() {
     return {
       $: '',
-      websiteData: {}
+      websiteData: {
+        title: 'Joanna Bloggs',
+        url: 'http://www.joannabloggs.com',
+        email: 'hello@joannabloggs.com',
+        description:
+          "I'm Katy, 30. I am married to Thomas and we " +
+          'have one daughter, Daisy Blue. I love to share ' +
+          'my views on parenting, products, family life, ' +
+          'personal finance & more. I enjoy helping people ' +
+          'make money, save money and change their lives ' +
+          "for the better. I'm based in Essex and my posts " +
+          'appeal to women aged 25-44 who want to ' +
+          'manage their finances well.',
+        stats: {
+          social_media: {
+            facebook: {
+              username: '',
+              total_followers: 5800
+            },
+            instagram: {
+              username: '',
+              total_followers: 5000
+            },
+            twitter: {
+              username: '',
+              total_followers: 2000
+            },
+            pinterest: {
+              username: '',
+              total_followers: 3000
+            },
+            total_followers: 25000
+          },
+          monthly_visitors: 25000,
+          monthly_page_views: 35000,
+          my_visitors: {
+            males: '0%',
+            females: '0%'
+          }
+        }
+      }
     }
   },
   async asyncData({ params, query }) {

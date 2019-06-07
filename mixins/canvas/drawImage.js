@@ -141,6 +141,116 @@ export const drawImageMixin = {
           resolve(imageObject)
         })
       })
+    },
+    renderMediaImage() {
+      const image = {
+        url: './media/photography.jpg'
+      }
+      this.drawHeaderImage(image).then(imageObject => {
+        imageObject.background.set('id', 'background')
+
+        let imageHeight = imageObject.height
+        let imageWidth = imageObject.width
+
+        console.log('imageWidth, imageHeight', imageWidth, imageHeight)
+        console.log('this.image.width', this.image.width)
+
+        let imageGroupWidth = this.image.width
+        let imageGroupClipWidth = this.image.width
+        let imageGroupHeight = this.minGridSize
+        let imageClipHeight = 1400
+        let imageGroupLeft = imageObject.left
+
+        let imageGroup = new fabric.Group([imageObject.background], {
+          id: imageObject.id,
+          width: this.minGridSize,
+          // height: 0,
+          left: imageGroupLeft,
+          top: 0,
+          originX: 'left',
+          originY: 'top',
+          selectable: true,
+          objectCaching: false
+        })
+
+        imageGroup.scaleToWidth(imageGroupWidth)
+
+        imageGroup.clipTo = ctx => {
+          const offsetPadding = 0
+
+          // mobile fix: https://stackoverflow.com/a/42155047
+          // disabling as distorting image on mobile
+          //const retina = this.canvas.getRetinaScaling()
+          ctx.save()
+          ctx.beginPath()
+          ctx.setTransform(1, 0, 0, 1, 0, 0)
+          //ctx.setTransform(retina, 0, 0, retina, 0, 0)
+          ctx.rect(
+            imageObject.left / 2,
+            imageObject.top,
+            imageGroupClipWidth - offsetPadding,
+            imageClipHeight - offsetPadding
+          )
+          ctx.closePath()
+          ctx.restore()
+        }
+
+        // const fontPromises = []
+        this.canvas.add(imageGroup)
+        this.renderTemplateHeader()
+        this.renderTemplateSocialBackground()
+        this.renderTemplateSocial('facebook').then(facebookGroup => {
+          console.log('logoGroup width', facebookGroup)
+          const logoFacebookOffset =
+            facebookGroup.width + facebookGroup.left + 100
+          this.renderTemplateSocial('twitter', logoFacebookOffset).then(
+            twitterGroup => {
+              const logoTwitterOffset = logoFacebookOffset + twitterGroup.width + 100
+              this.renderTemplateSocial('youtube', logoTwitterOffset)
+            }
+          )
+        })
+
+        this.renderTemplateMyVisitors()
+        this.renderTemplateFooter()
+        this.renderTemplateAbout(imageGroup)
+      })
+    },
+    drawHeaderImage(image) {
+      // this.savedBackgroundImage = image.url || ''
+
+      return new Promise(resolve => {
+        fabric.Image.fromURL(image.url, background => {
+          let topPosition = 0
+          let leftPosition = 0
+
+          background.set({
+            left: 0,
+            originX: 'center',
+            originY: 'center',
+            angle: this.imageRotate(image)
+          })
+
+          // If image is landscape we need to scale height by maxCanvasWidth/size
+          if (image.width > image.height) {
+            background.scaleToHeight(this.maxCanvasWidth)
+          } else {
+            // else portrait, we scale width by maxCanvasWidth/size
+            background.scaleToWidth(this.maxCanvasWidth)
+          }
+
+          const imageObject = {
+            id: image.id,
+            background,
+            width: this.image.width,
+            height: this.image.height,
+            top: topPosition,
+            left: leftPosition
+          }
+
+          resolve(imageObject)
+        })
+      })
     }
   }
 }

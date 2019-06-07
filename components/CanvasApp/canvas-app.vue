@@ -65,6 +65,7 @@
           :theme="userTheme"
           :image="userImage"
           :images="userImages"
+          :website-data="websiteData"
           :clear-objects="clearObjects"
           @triggerTrayToggle="toggleTray('edit', $event)"
           @onSubmitForm="triggerSubmitForm"
@@ -126,6 +127,10 @@ export default {
     },
     userImages: {
       type: Array,
+      required: false
+    },
+    websiteData: {
+      type: Object,
       required: false
     }
   },
@@ -236,7 +241,8 @@ export default {
         size: theme.date.size,
         opacity: 1,
         colour: theme.date.style.colour || '#252944',
-        text: 'Baby\nName'
+        text: '',
+        font: 'VivaBeautiful'
       }
       return {
         style:

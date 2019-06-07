@@ -112,7 +112,7 @@ $headerMenuTopMargin: 60px;
 }
 
 .gt-header {
-  background-color: $primary-background;
+  //background-color: $primary-background;
   padding: 0 $padding;
   height: $headerHeight;
   // transition: all 0.6s ease-in-out;
@@ -133,7 +133,7 @@ $headerMenuTopMargin: 60px;
     display: flex;
     cursor: pointer;
     height: 100%;
-    margin: 0;
+    margin-top: 5px;
   }
 
   &__dot,
@@ -151,7 +151,7 @@ $headerMenuTopMargin: 60px;
     right: 0;
     margin-top: (-$dotShapeSize / 2);
     margin-left: (-$dotShapeSize / 2);
-    background-color: $primary-colour;
+    background-color: #000;
     &:before,
     &:after {
       content: '';
@@ -159,12 +159,12 @@ $headerMenuTopMargin: 60px;
     &:before {
       right: $dotShapeSize + 0.357; // + 5px
       transition: right 0.3s ease-out;
-      background-color: $secondary-colour;
+      background-color: #999;
     }
     &:after {
       left: $dotShapeSize + 0.357; // + 5px
       transition: left 0.3s ease-out;
-      background-color: $secondary-colour;
+      background-color: #999;
     }
   }
 
@@ -196,7 +196,7 @@ $headerMenuTopMargin: 60px;
     height: 100vh;
     padding: 0;
     z-index: 40;
-    background-color: $secondary-colour;
+    background-color: $black;
     &--active {
       &:after {
         animation-name: sizeup-c;

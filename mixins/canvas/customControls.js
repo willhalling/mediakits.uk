@@ -13,7 +13,7 @@ export const customControls = {
     }
   },
   mounted() {
-    const iconSize = this.isMobile ? 96 : 32
+    const iconSize = this.isMobile ? 96 : 102
 
     fabric.Object.prototype.set({
       rotatingPointOffset: 75

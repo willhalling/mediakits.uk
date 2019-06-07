@@ -23,3 +23,18 @@
   font-display: fallback;
   src: local('VivaBeautiful'), url('/fonts/VivaBeautiful.woff2') format('woff2');
 }
+
+@font-face {
+  font-family: 'gill-sans-medium';
+  font-display: fallback;
+  src: local('gill-sans-medium'), url('/fonts/gill-sans-w01-medium.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'gill-sans-bold';
+  font-display: fallback;
+  src: local('gill-sans-bold'), url('/fonts/gillsans-bold.woff2') format('woff2');
+}
+
+
+

@@ -44,7 +44,7 @@ const dateFormat = require('dateformat')
 
 // Local constants
 const CANVAS_PADDING = 40
-const CANVAS_BACKGROUND_COLOUR = '#132B37'
+const CANVAS_BACKGROUND_COLOUR = '#EDEDED'
 const CANVAS_FILL_COLOUR = '#F3D549'
 const CANVAS_CONTROLS_VISIBILITY = {
   mt: true,
@@ -78,6 +78,10 @@ export default {
     },
     images: {
       type: Array,
+      required: false
+    },
+    websiteData: {
+      type: Object,
       required: false
     },
     theme: {
@@ -248,22 +252,6 @@ export default {
         this.updateCanvas()
       })
     },
-    hasBackgroundChanged() {
-      // Check whether or not background image has changed
-      const backgroundImage = this.image.url || ''
-      const savedBackgroundImage = this.savedBackgroundImage
-      const oldBgImage = savedBackgroundImage.substring(
-        savedBackgroundImage.lastIndexOf('/') + 1
-      )
-      const newBgImage = backgroundImage.substring(
-        backgroundImage.lastIndexOf('/') + 1
-      )
-      // if background Image has not changed
-      if (oldBgImage === newBgImage) {
-        return false
-      }
-      return true
-    },
     imageRotate(image) {
       if (image) {
         return (image.orientation && image.orientation.rotate) || 0
@@ -425,7 +413,7 @@ export default {
 
 
                               this.canvas.add(square);
-                              
+
                                */
 
                 // We don't need to add Age Shape if we don't have any data/photo exif date
@@ -962,32 +950,34 @@ export default {
       this.canvas.renderAll()
     },
     renderTemplate() {
-
       // Start Media Kit Template 01
 
+      this.renderMediaImage()
+    },
+    renderTemplateHeader() {
       const headerBackground = new fabric.Rect({
         left: this.image.width / 4,
         top: 0,
         width: this.image.width / 2,
         height: 300,
-        fill: 'rgba(255,255,255,1)',
+        fill: 'rgba(255,255,255,0.5)',
         stroke: 'rgba(34,177,76,1)',
         strokeWidth: 0
       })
 
-      const headerText = new fabric.Text('Joe Bloggs', {
+      const headerText = new fabric.Text(this.websiteData.title, {
         id: 'headerText',
-        fontFamily: 'BrochaAltW05-Book',
+        fontFamily: this.canvasData.style.font,
         fontSize: 128,
         textAlign: 'center',
         left: 0,
         top: 0,
-        fill: '#000' || 'red',
+        fill: '#000',
         stroke: '',
         charSpacing: 50,
         width: headerBackground.width
       })
-      headerText.scaleToWidth(headerBackground.width / 1.25, true)
+      headerText.scaleToWidth(headerBackground.width / 1.5, true)
 
       let positionObject = getPosition(
         this.image.width,
@@ -1005,25 +995,185 @@ export default {
 
       let headerGroup = new fabric.Group([headerBackground, headerText], {})
       headerGroup.set('top', 100)
-      this.canvas.add(headerGroup)
 
-      /*
-      this.addSvg({
-        url: './svgs/other/arrow-up.svg',
-        position: {
-          left: 522,
-          top: 20
-        },
-        fill: CANVAS_FILL_COLOUR
+      this.canvas.add(headerGroup)
+    },
+    renderTemplateSocialBackground() {
+      const socialHeight = 300
+      const socialRadius = 20
+      const socialBackground = new fabric.Rect({
+        left: 0,
+        top: 0,
+        width: this.image.width,
+        height: socialHeight,
+        fill: 'rgba(255,255,255,0.6)',
+        stroke: 'rgba(34,177,76,1)',
+        strokeWidth: 0
+        //rx: socialRadius,
+        //ry: socialRadius
       })
-      this.addSvg({
-        url: './svgs/other/start-by-text.svg',
-        position: {
-          left: 422,
-          top: 130
-        },
-        fill: CANVAS_FILL_COLOUR
-      }) */
+      socialBackground.set('top', 1400 - socialHeight / 2)
+      socialBackground.set('left', 0)
+      this.canvas.add(socialBackground)
+    },
+    renderTemplateSocial(
+      icon = 'facebook',
+      leftOffset = 100,
+      username = '@joebloggs',
+      text = '5,8k'
+    ) {
+      return new Promise(resolve => {
+        const logoSize = 110
+        return fabric.loadSVGFromURL(
+          `./media/social/${icon}.svg`,
+          (objects, options) => {
+            // const fillColour = this.canvasData.style.colour
+            let logo = fabric.util.groupSVGElements(objects, options)
+            const textLeftOffset = 150
+            logo.set('fill', '#000')
+            logo.scaleToWidth(logoSize, true)
+            const logoUsername = new fabric.Text(username, {
+              id: `${icon}Text`,
+              fontFamily: 'gill-sans-medium',
+              fontSize: 50,
+              textAlign: 'left',
+              left: textLeftOffset,
+              top: 75,
+              fill: '#000',
+              stroke: '',
+              charSpacing: 50
+            })
+
+            const logoText = new fabric.Text(text, {
+              id: `${icon}Text`,
+              fontFamily: 'gill-sans-bold',
+              fontSize: 72,
+              textAlign: 'center',
+              left: textLeftOffset,
+              top: -20,
+              fill: '#000',
+              stroke: '',
+              charSpacing: 0
+            })
+
+            let logoGroup = new fabric.Group([logo, logoUsername, logoText], {})
+            logoGroup.set('top', 1320)
+            logoGroup.set('left', leftOffset)
+            this.canvas.add(logoGroup)
+            resolve(logoGroup)
+          }
+        )
+        resolve()
+      })
+    },
+    renderTemplateAbout() {
+      const aboutText = new fabric.Text(`About ${this.websiteData.title}`, {
+        id: 'aboutText',
+        fontFamily: this.canvasData.style.font,
+        fontSize: 128,
+        textAlign: 'left',
+        left: 100,
+        top: 1650,
+        fill: '#000',
+        stroke: '',
+        charSpacing: 50
+      })
+      const aboutDescription = new fabric.Textbox(
+        `About ${this.websiteData.description}`,
+        {
+          id: 'aboutDescription',
+          fontFamily: 'gill-sans-medium',
+          fontSize: 50,
+          textAlign: 'left',
+          left: 100,
+          top: 1900,
+          fill: '#000',
+          stroke: '',
+          charSpacing: 50,
+          width: 1200
+        }
+      )
+      let aboutGroup = new fabric.Group([aboutText, aboutDescription], {})
+      this.canvas.add(aboutGroup)
+    },
+    renderTemplateMyVisitors() {
+      const myVisitorsText = new fabric.Text(`My Visitors`, {
+        id: 'myVisitorsText',
+        fontFamily: this.canvasData.style.font,
+        fontSize: 128,
+        textAlign: 'left',
+        left: 1500,
+        top: 1650,
+        fill: '#000',
+        stroke: '',
+        charSpacing: 50
+      })
+      const myVisitorsDescription = new fabric.Textbox(
+        `About ${this.websiteData.description}`,
+        {
+          id: 'myVisitorsDescription',
+          fontFamily: 'gill-sans-medium',
+          fontSize: 50,
+          textAlign: 'left',
+          left: 1500,
+          top: 1900,
+          fill: '#000',
+          stroke: '',
+          charSpacing: 50,
+          width: 850
+        }
+      )
+      let myVisitorsGroup = new fabric.Group(
+        [myVisitorsText, myVisitorsDescription],
+        {}
+      )
+      this.canvas.add(myVisitorsGroup)
+    },
+    renderTemplateFooter() {
+      const footerHeight = 150
+      const footerBackground = new fabric.Rect({
+        left: 0,
+        top: 0,
+        width: this.image.width,
+        height: footerHeight,
+        fill: 'rgba(0,0,0,1)'
+      })
+      const urlNoProtocol = this.websiteData.url.replace(/^https?\:\/\//i, '')
+      const footerText = new fabric.Text(
+        `${urlNoProtocol} | ${this.websiteData.email}`,
+        {
+          id: 'footerText',
+          fontFamily: 'gill-sans-medium',
+          fontSize: 50,
+          textAlign: 'center',
+          left: 0,
+          top: 0,
+          fill: '#FFF',
+          stroke: '',
+          charSpacing: 100,
+          width: footerBackground.width
+        }
+      )
+      footerText.scaleToWidth(footerBackground.width / 2, true)
+
+      let positionObject = getPosition(
+        this.image.width,
+        footerBackground.height,
+        'middle',
+        0,
+        'x',
+        'y'
+      )
+      footerText.setPositionByOrigin(
+        positionObject.coordinates,
+        positionObject.originX,
+        positionObject.originY
+      )
+
+      let footerGroup = new fabric.Group([footerBackground, footerText], {})
+      footerGroup.set('top', this.image.height - footerHeight)
+
+      this.canvas.add(footerGroup)
     },
     deactivateAll() {
       return new Promise(resolve => {
@@ -1049,6 +1199,7 @@ export default {
       })
     },
     generateImage() {
+      /*
       if (!this.isGridLayout) {
         // Ratio is different for Landscape & Portrait images
         const downloadRatio =
@@ -1063,7 +1214,7 @@ export default {
           this.canvas.backgroundImage.scaleToWidth(this.image.originalWidth)
           this.canvas.backgroundImage.scaleToHeight(this.image.originalHeight)
         }
-      }
+      }  */
       this.deactivateAll().then(() => {
         this.saveImage()
         this.$emit('onSubmitForm')
@@ -1161,6 +1312,7 @@ export default {
 
 .canvasContainer {
   &__wrap:not(.canvasContainer__wrap--slider) {
+    border: 1px solid #000;
     max-width: $siteWidth;
     position: relative;
     margin: 0 auto;
