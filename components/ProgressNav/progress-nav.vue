@@ -190,7 +190,7 @@ export default {
   flex-wrap: wrap;
   width: 100%;
   justify-content: space-evenly;
-  padding: $padding;
+  padding: $padding $padding $padding * 4 $padding;
   &__next {
     margin-left: auto;
   }

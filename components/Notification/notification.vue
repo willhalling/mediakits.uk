@@ -38,8 +38,8 @@ export default {
 .Notification {
   margin-bottom: $padding;
   &__container {
-    color: #FFF;
-    background-color: #d91851;
+    color: $white;
+    background-color: $black;
     display: flex;
     align-items: center;
     justify-content: center;

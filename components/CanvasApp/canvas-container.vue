@@ -1238,7 +1238,8 @@ export default {
       sessionStorage.setItem('gt_canvas_img', canvasBase64)
       // Go to step 3 (final step & download page)
       this.nextStepAction().then(() => {
-        this.$router.push({ query: { step: this.step, name: this.fileName } })
+        // this.$router.push({ query: { step: this.step, name: this.fileName } })
+        this.$router.push('/download')
         this.$scrollTo('#__nuxt', 0, { force: true })
       })
     },
@@ -1357,7 +1358,7 @@ export default {
 .canvasContainer {
   &__wrap:not(.canvasContainer__wrap--slider) {
     border: 1px solid #000;
-    max-width: $siteWidth;
+    max-width: 800px;
     position: relative;
     margin: 0 auto;
     overflow: hidden; // Important: fixes scroll jumping on mobile

@@ -2,76 +2,78 @@
   <div
     :class="{ 'CanvasApp--active': show.canvasApp }"
     class="CanvasApp">
-    <canvas-top
-      v-if="canvasData && userTheme"
-      id="top"
-      :canvas-data="canvasData"
-      :number-of-images="userImages.length"
-      :nav="canvasNavText"
-      :font="userTheme.date.font"
-      @on-background-click="triggerBackgroundClick"
-    />
-    <!-- START Netlify form -->
-    <form
-      v-show="false"
-      ref="submitNetlify"
-      action="/"
-      name="CanvasImage"
-      method="POST"
-      netlify-honeypot="bot-field2"
-      @submit.prevent="submitImage"
-    >
-      <input
-        type="hidden"
-        name="form-name"
-        value="CanvasImage">
-      <label>Don’t fill this out if you're human: <input name="bot-field2"></label>
-      <input
-        value="Image submission at BabyByMonth.com"
-        name="subject"
+
+    <div class="CanvasApp__column CanvasApp__column--canvas">
+      <canvas-top
+        v-if="canvasData && userTheme"
+        id="top"
+        :canvas-data="canvasData"
+        :number-of-images="userImages.length"
+        :nav="canvasNavText"
+        :font="userTheme.date.font"
+        @on-background-click="triggerBackgroundClick"
+      />
+      <!-- START Netlify form -->
+      <form
+        v-show="false"
+        ref="submitNetlify"
+        action="/"
+        name="CanvasImage"
+        method="POST"
+        netlify-honeypot="bot-field2"
+        @submit.prevent="submitImage"
       >
+        <input
+          type="hidden"
+          name="form-name"
+          value="CanvasImage">
+        <label>Don’t fill this out if you're human: <input name="bot-field2"></label>
+        <input
+          value="Image submission at Easy Media Kit"
+          name="subject"
+        >
+        <input
+          value=""
+          name="themeName"
+        >
+        <input
+          value=""
+          name="imageText"
+        >
+        <button
+          ref="submitNetlifyButton"
+          type="submit"
+          name="subject"
+        >Submit
+        </button>
+      </form>
+      <!-- END Netlify form -->
       <input
-        value=""
-        name="themeName"
-      >
-      <input
-        value=""
-        name="imageText"
-      >
-      <button
-        ref="submitNetlifyButton"
-        type="submit"
-        name="subject"
-      >Submit
-      </button>
-    </form>
-    <!-- END Netlify form -->
-    <input
-      ref="fileInput"
-      aria-label="Change Background"
-      type="file"
-      multiple
-      accept="image/x-png,image/gif,image/jpeg"
-      class="canvasApp__inputfile gt-hidden"
-      @change="changeBackground">
-    <div v-if="canvasData">
-      <div
-        v-show="userTheme.id"
-        class="CanvasApp__container">
-        <canvas-container
-          v-if="fontsReady"
-          ref="canvasContainer"
-          :canvas-data="canvasData"
-          :theme="userTheme"
-          :image="userImage"
-          :images="userImages"
-          :website-data="websiteData"
-          :clear-objects="clearObjects"
-          @triggerTrayToggle="toggleTray('edit', $event)"
-          @onSubmitForm="triggerSubmitForm"
-        />
-      </div>
-      <!--
+        ref="fileInput"
+        aria-label="Change Background"
+        type="file"
+        multiple
+        accept="image/x-png,image/gif,image/jpeg"
+        class="canvasApp__inputfile gt-hidden"
+        @change="changeBackground">
+      <div v-if="canvasData">
+        <div
+          v-show="userTheme.id"
+          class="CanvasApp__container">
+          <canvas-container
+            v-if="fontsReady"
+            ref="canvasContainer"
+            :canvas-data="canvasData"
+            :theme="userTheme"
+            :image="userImage"
+            :images="userImages"
+            :website-data="websiteData"
+            :clear-objects="clearObjects"
+            @triggerTrayToggle="toggleTray('edit', $event)"
+            @onSubmitForm="triggerSubmitForm"
+          />
+        </div>
+        <!--
       <canvas-slider
         :current-theme="userTheme.id"
         :canvas-data="canvasData"
@@ -79,19 +81,27 @@
         @on-change-theme="changeTheme"/>
         -->
 
-      <counter-base
-        id="counter"
-        :colours="userTheme.objects.Counter.colours"
-        :active-colour="canvasData && canvasData.style.colour"
-        :age="age"
-        class="gt-hidden"
-      />
+        <counter-base
+          id="counter"
+          :colours="userTheme.objects.Counter.colours"
+          :active-colour="canvasData && canvasData.style.colour"
+          :age="age"
+          class="gt-hidden"
+        />
+
+      </div>
 
     </div>
+
+    <div class="CanvasApp__column">
+      <canvas-edit :website-data="websiteData" />
+    </div>
+    
   </div>
 </template>
 
 <script>
+import CanvasEdit from "./templates/canvas-edit";
 const dateFormat = require('dateformat')
 import { firebase, storage, auth } from '~/plugins/firebase.js'
 import findOrientation from 'exif-orientation'
@@ -115,6 +125,7 @@ const LOCAL_STORAGE_KEY = 'gt_img_upload_url'
 
 export default {
   name: 'CanvasApp',
+  components: {CanvasEdit},
   mixins: [trayMixin, ageMixin, searchMixin, localStorageMixin],
   props: {
     fontsReady: {
@@ -534,23 +545,24 @@ export default {
 @import '../../scss/homepage.scss';
 
 .CanvasApp {
-  transform: translate3d(0, 0, 0);
-  transition: transform 0.6s ease-in-out;
-
-  &--active {
-    transform: translate3d(0, -60px, 0);
-  }
+  padding: $padding;
 }
 
-/*
-    // Desktop Styles
-    @include media-query('medium') {
-        .CanvasApp {
-            transition: none;
-            margin: $padding 0 $padding * 2;
-            &--active {
-                transform: translate3d(0, 0, 0);
-            }
-        }
-    } */
+// Desktop Styles
+@include media-query('medium') {
+  .CanvasApp {
+    background-color: #dedede;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: $padding * 2;
+    margin-bottom: $padding * 2;
+    padding: $padding * 2;
+    &__column {
+      &--canvas {
+        width: 800px;
+      }
+    }
+  }
+}
 </style>

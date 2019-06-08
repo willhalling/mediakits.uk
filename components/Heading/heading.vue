@@ -32,7 +32,8 @@ export default {
       default: true
     },
     theme: {
-      type: String
+      type: String,
+      default: 'dark'
     }
   },
 
@@ -54,13 +55,14 @@ export default {
 .heading {
   font-weight: bold;
   margin: 0 0 1.25rem;
-  padding: 0em;
-  border-bottom: 1px solid $black;
-  letter-spacing: 0.05em;
+  padding: $padding;
+  background-color: $black;
+  color: $white;
   line-height: 1;
   h1 {
+    letter-spacing: 0.05em;
     margin: 0 auto;
-    padding: 1.25rem;
+    padding: $padding / 2 0;
     max-width: $siteWidth;
   }
   &--noBorder {
@@ -81,6 +83,11 @@ export default {
     h3 {
       color: $white;
     }
+  }
+}
+@include media-query('medium') {
+  .heading {
+    padding: 0;
   }
 }
 </style>

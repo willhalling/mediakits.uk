@@ -4,9 +4,7 @@
       <cookie-law></cookie-law>
     </no-ssr>
     <p class="footer__copyright">
-      &copy; {{ year }} MediaKits.uk |
-      <a href="./">Home</a> |
-      <a href="./contact">Contact Us</a>
+      &copy; {{ year }} EasyMediaKit.io
     </p>
   </div>
 </template>

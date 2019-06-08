@@ -87,8 +87,8 @@ export default {
   &__field {
     width: 80%;
     .field__group {
-      border-top-left-radius: $border-radius;
-      border-bottom-left-radius: $border-radius;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
       margin-bottom: 0;
     }
   }
@@ -97,12 +97,12 @@ export default {
   }
   &--theme--light {
     .field__group {
-      border: 1px solid #d91851;
+      border: 1px solid $black;
     }
     .field__group,
     .field__input {
       background-color: $white;
-      color: #d91851;
+      color: $black;
     }
     .field__input {
       &::placeholder {

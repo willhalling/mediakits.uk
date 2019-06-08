@@ -4,11 +4,10 @@
       <div class="hero__column">
         <transition name="slide-fade-one">
           <div v-if="show.hero.heading" >
-            <h1 class="hero__heading">Media Kits<span class="hero__heading--alt">Coming Soon</span></h1>
-            <p class="hero__description">Boost your brand and business with an professional Media Kit. Add your email
-            below to receive a free Media Kit and get exclusive access when we launch.
+            <h1 class="hero__heading">Media Kit Maker</h1>
+            <p class="hero__description">Introducing Easy Media Kit – an online media kit maker for your business. It’s super easy to generate a professional media kit for your website.
               <a
-                v-scroll-to="'#newsletter'"
+                v-scroll-to="'#urlForm'"
                 class="hero__link"
                 href>Start &darr;</a>
             </p>
@@ -19,7 +18,7 @@
         <transition name="u-scale-in">
           <a
             href
-            v-scroll-to="'#newsletter'"
+            v-scroll-to="'#urlForm'"
             v-if="show.hero.image">
             <img
               class="hero__img"
@@ -68,7 +67,7 @@ $heroHeight: 450px;
 .hero {
   display: flex;
   align-items: center;
-  background-color: #ffe6ee;
+  background-color: #EDEDED;
   padding: $padding * 2 $padding;
 
   &__container {

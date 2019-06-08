@@ -8,8 +8,9 @@ $range-slider-size: 25px;
     flex-direction: column;
     flex: 1;
     margin-bottom: $padding;
-    background-color: #535353;
-    border: 1px solid $white;
+    background-color: $white;
+    border: 1px solid $black;
+    border-radius: $border-radius;
     font-family: $serifFont;
     padding: $padding / 2 $padding / 2 $padding $padding / 2;
     transition: all $transition;
@@ -57,8 +58,8 @@ $range-slider-size: 25px;
   &__input {
     border: 0;
     padding: 0;
-    color: $white;
-    background-color: #535353;
+    color: $black;
+    background-color: $white;
     // font: {
     //  size: $text-s;
     // }
@@ -69,7 +70,7 @@ $range-slider-size: 25px;
     letter-spacing: 0.03em;
 
     &::placeholder {
-      color: $white;
+      color: $grey;
       transition: color $transition;
     }
   }

@@ -5,32 +5,31 @@
     <gt-header />
     <div class="home__container gt-padding-bottom-large">
       <hero v-if="step === 1" />
-      <div 
-        id="newsletter" 
-        class="home__newsletter">
-        <div v-if="step === 1">
-          <url-form />
-        </div>
-        <div v-if="step === 2">
-          <canvas-app
-            ref="canvasApp"
-            :user-image="userImage"
-            :user-images="userImages"
-            :website-data="websiteData"
-            :fonts-ready="true"
-          />
-        </div>
+      <div
+        v-if="step === 1"
+        id="urlForm"
+        class="home__urlForm">
+        <url-form />
       </div>
-      <div v-if="step === 3">
-        <download />
+      <div v-if="step === 2">
+        <canvas-app
+          ref="canvasApp"
+          :user-image="userImage"
+          :user-images="userImages"
+          :website-data="websiteData"
+          :fonts-ready="true"
+        />
       </div>
-      <progress-nav
-        :step="step"
-        :disable-save="disableSaveButton"
-        @progress-previous="previousStep"
-        @progress-next="nextStep"/>
-      <how-it-works v-if="step === 1" />
     </div>
+    <div v-if="step === 3">
+      <download />
+    </div>
+    <progress-nav
+      :step="step"
+      :disable-save="disableSaveButton"
+      @progress-previous="previousStep"
+      @progress-next="nextStep"/>
+    <how-it-works v-if="step === 1" />
     <gt-footer />
   </div>
 </template>
@@ -241,10 +240,10 @@ export default {
 
 .home {
   &__container {
-    min-height: 100vh;
+    //min-height: 100vh;
   }
-  &__newsletter {
-    padding: $padding * 2;
+  &__urlForm {
+    padding: $padding * 2 0 0;
     margin: 0 auto 0 auto;
     max-width: 800px;
   }

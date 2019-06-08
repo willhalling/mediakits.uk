@@ -4,7 +4,7 @@
       :width="width" 
       :height="height" 
       class="logo"
-      alt="Baby By Month"
+      alt="Easy Media Kit Logo"
       src="../../assets/logo.svg">
   </span>
 </template>

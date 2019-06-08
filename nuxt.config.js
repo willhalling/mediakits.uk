@@ -9,7 +9,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'Free Media Kits for Creatives',
+    title: 'Easy Online Media Kit Maker | Professional template',
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },

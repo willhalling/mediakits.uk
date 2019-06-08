@@ -1,8 +1,9 @@
 <template>
   <div>
-    <div class="Contact gt-background-secondary gt-padding-top gt-padding-bottom">
+    <gt-header />
+    <heading>Contact Easy Media Kit team</heading>
+    <div class="Contact gt-padding-bottom">
       <div class="Contact__container gt-colour-white gt-padding-bottom-xlarge">
-        <h2>Get in touch</h2>
         <form
           ref="contactForm"
           action="/thank-you"
@@ -58,7 +59,7 @@
                 :width="32"
                 :height="32"
                 icon-name="SvgSendIcon"
-                colour="#132B37"
+                colour="#FFF"
               >
                 <component is="SvgSendIcon" />
               </svg-base>
@@ -88,13 +89,13 @@ export default {
   },
   head() {
     return {
-      title: 'Feedback | BabyByMonth.com',
+      title: 'Contact | Easy Media Kit',
       meta: [
         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
         {
           hid: 'description',
           name: 'description',
-          content: 'Get in touch with any questions or feedback you have on Baby By Month.'
+          content: 'Get in touch with any questions or feedback you have about Easy Media Kit.'
         }
       ]
     }

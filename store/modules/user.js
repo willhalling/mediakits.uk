@@ -3,6 +3,47 @@ import ls from 'local-storage'
 const state = {
   // Cache version
   version: '',
+  websiteData: {
+    title: 'Joanna Bloggs',
+    url: 'http://www.joannabloggs.com',
+    email: 'hello@joannabloggs.com',
+    description:
+      "I'm Katy, 30. I am married to Thomas and we " +
+      'have one daughter, Daisy Blue. I love to share ' +
+      'my views on parenting, products, family life, ' +
+      'personal finance & more. I enjoy helping people ' +
+      'make money, save money and change their lives ' +
+      "for the better. I'm based in Essex and my posts " +
+      'appeal to women aged 25-44 who want to ' +
+      'manage their finances well.',
+    stats: {
+      social_media: {
+        facebook: {
+          username: '',
+          total_followers: 5800
+        },
+        instagram: {
+          username: '',
+          total_followers: 5000
+        },
+        twitter: {
+          username: '',
+          total_followers: 2000
+        },
+        pinterest: {
+          username: '',
+          total_followers: 3000
+        },
+        total_followers: 25000
+      },
+      monthly_visitors: 25000,
+      monthly_page_views: 35000,
+      my_visitors: {
+        males: '0%',
+        females: '0%'
+      }
+    }
+  },
   image: {
     width: 2480,
     height: 3508,
@@ -124,7 +165,10 @@ const getters = {
   },
   existingUser: state => {
     return state.config.existingUser
-  }
+  },
+  websiteData: state => {
+    return state.websiteData
+  },
 }
 
 export default {

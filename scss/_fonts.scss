@@ -36,5 +36,19 @@
   src: local('gill-sans-bold'), url('/fonts/gillsans-bold.woff2') format('woff2');
 }
 
+@font-face {
+  font-family: 'trade-gothic-rounded';
+  font-display: fallback;
+  src: local('trade-gothic-rounded'), url('/fonts/trade-gothic-rounded.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'trade-gothic-inline';
+  font-display: fallback;
+  src: local('trade-gothic-inline'), url('/fonts/trade-gothic-inline.woff2') format('woff2');
+}
+
+
+
 
 

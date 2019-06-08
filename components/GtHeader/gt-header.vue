@@ -66,7 +66,7 @@ export default {
           { title: 'Home', link: '/' },
           { title: 'About', link: '/about' },
           { title: 'Privacy', link: '/privacy' },
-          { title: 'Feedback', link: '/feedback' }
+          { title: 'Contact', link: '/contact' }
         ]
       }
     }
@@ -226,7 +226,7 @@ $headerMenuTopMargin: 60px;
       transition: color $transition;
       &:hover,
       &:focus {
-        color: $primary-colour;
+        color: $grey;
       }
     }
   }
