@@ -45,7 +45,6 @@
             >
               <component is="SvgFrameLandscape"/>
             </svg-base>
-            {{numberOfImages}}/6
           </button-cta>
         </div>
         <div class="gt-width-full gt-max-width-72">
@@ -204,7 +203,7 @@ export default {
 @import '../../../scss/_mixins.scss';
 
 .CanvasTop {
-  margin: 0 auto;
+  margin: 0 auto $padding;
   max-width: $siteWidth;
 
   @include media-query('medium') {

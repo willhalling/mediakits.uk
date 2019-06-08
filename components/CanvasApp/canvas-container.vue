@@ -113,7 +113,7 @@ export default {
       CONTROL_ROTATE_OFFSET: 150,
       savedBackgroundImage: '',
       target: '',
-      maxCanvasWidth: 1080
+      maxCanvasWidth: 800
       //maxCanvasHeight: 1080,
     }
   },
@@ -125,8 +125,8 @@ export default {
     }),
     styles() {
       return {
-        [`maxWidth`]: `${this.maxCanvasWidth}px`,
-        [`maxHeight`]: `${this.maxCanvasHeight}px`
+        [`maxWidth`]: `1080px`,
+        //[`maxHeight`]: `1528px`
       }
     },
     fileName() {
@@ -134,51 +134,18 @@ export default {
         this.website.data.url.value
       )} Media Kit ${dateFormat()}`
     },
-    onlyOneImage() {
-      return this.images && this.images.length === 1
-    },
-    onlyTwoImages() {
-      return this.images && this.images.length === 2
-    },
-    onlyThreeImages() {
-      return this.images && this.images.length === 3
-    },
-    onlyFiveImages() {
-      return this.images && this.images.length === 5
-    },
     imageWidth() {
-      if (this.isThumb) {
-        return 1080
-      }
-      return this.image.width
+      return this.theme.width
     },
     imageHeight() {
-      if (this.isThumb) {
-        return 1080
-      }
-      return this.image.height
-    },
-    isGridLayout() {
-      // Switch to grid layout when more than 1 image
-      return this.images && this.images.length > 1
+      return this.theme.height
     },
     minGridSize() {
-      //return Math.min(this.image.width, this.image.height)
+      //return Math.min(this.theme.width, this.theme.height)
       return 1080
     },
     maxCanvasHeight() {
-      let height = this.minGridSize
-      if (this.images && this.images.length > 4) {
-        height = 1080 + 540
-      }
-      if (this.onlyOneImage) {
-        console.log('maxCanvasHeight this.onlyOneImage', this.onlyOneImage)
-        return 'none'
-      }
-      if (this.isGridLayout) {
-        return height
-      }
-      return 'none'
+      return 1132
     }
   },
   watch: {
@@ -270,282 +237,13 @@ export default {
       }
     },
     updateCanvas() {
-      console.log('update canvas', this.images)
       this.canvas.clear()
       this.canvas.backgroundColor = CANVAS_BACKGROUND_COLOUR
-      this.resizeCanvas()
-
-      //if (this.images && this.images.length === 0) {
-      this.renderTemplate()
-      //this.addCanvasObjects()
-      //}
-
-      /*
-      if (this.isThumb) {
-        // Delete all objects (needed to delete instructions when changing font)
-        this.canvas.remove(...this.canvas.getObjects())
-        return this.drawDateObject()
-      } */
-
-      this.canvas.off('mouse:down')
-
-      if (this.images && this.images.length > 0) {
-        //this.canvas.clear()
-        this.canvas.backgroundColor = CANVAS_BACKGROUND_COLOUR
-        const imagePromises = []
-
-        // Sort by date
-        this.images = this.images.sort((a, b) => {
-          return new Date(a.date) - new Date(b.date)
-        })
-
-        this.images.forEach((image, index) => {
-          const drawImageSwitch = this.isGridLayout
-            ? 'drawImageGrid'
-            : 'drawImageSingle'
-          imagePromises.push(
-            Promise.resolve(
-              this[drawImageSwitch](image, index).then(imageObject => {
-                imageObject.background.set('id', 'background')
-
-                let imageHeight = imageObject.height
-                let imageWidth = imageObject.width
-
-                // Create date shape
-                const theme = {
-                  id: this.theme.id,
-                  font: this.theme.date.font,
-                  size: this.theme.date.size,
-                  width: imageWidth,
-                  height: imageHeight,
-                  top: imageObject.top,
-                  left: imageObject.left
-                }
-
-                let imageGroup = new fabric.Group([imageObject.background], {
-                  id: imageObject.id,
-                  isImage: true,
-                  width: this.imageWidth,
-                  height: this.imageHeight,
-                  left: imageObject.left,
-                  top: imageObject.top,
-                  originX: 'center',
-                  originY: 'center',
-                  selectable: false
-                })
-
-                let imageGroupWidth = this.minGridSize / 2
-                let imageGroupClipWidth = this.minGridSize / 2
-                let imageGroupHeight = this.minGridSize / 2
-                let imageGroupLeft = imageObject.left / 2
-
-                // display images side by side, e.g. before/after style
-                if (this.onlyTwoImages) {
-                  imageGroupWidth = this.minGridSize
-                  imageGroupHeight = this.minGridSize
-
-                  // center left image
-                  if (index === 0) {
-                    // imageGroupClipWidth = imageGroupClipWidth
-                    imageGroupLeft = -(this.imageWidth / 4)
-                  }
-
-                  // center right image
-                  if (index === 1) {
-                    imageGroupLeft = this.imageWidth / 4
-                  }
-                }
-
-                // display one large (left) and two small on right hand side
-                if (this.onlyThreeImages) {
-                  imageGroupHeight = this.minGridSize
-
-                  // center left image
-                  if (index === 0) {
-                    imageGroupWidth = this.minGridSize
-                    imageGroupLeft = -(this.imageWidth / 4)
-                  }
-
-                  // center right image
-                  if (index === 1) {
-                    imageGroupWidth = this.minGridSize / 2
-                  }
-                }
-
-                if (this.isGridLayout) {
-                  imageGroup = new fabric.Group([imageObject.background], {
-                    id: imageObject.id,
-                    isImage: true,
-                    width: this.minGridSize,
-                    height: this.minGridSize,
-                    left: imageGroupLeft,
-                    top: imageObject.top,
-                    originX: 'left',
-                    originY: 'top',
-                    selectable: true,
-                    objectCaching: false
-                  })
-
-                  imageGroup.scaleToWidth(imageGroupWidth)
-
-                  imageGroup.clipTo = ctx => {
-                    const offsetPadding = 0
-
-                    // mobile fix: https://stackoverflow.com/a/42155047
-                    // disabling as distorting image on mobile
-                    //const retina = this.canvas.getRetinaScaling()
-                    ctx.save()
-                    ctx.beginPath()
-                    ctx.setTransform(1, 0, 0, 1, 0, 0)
-                    //ctx.setTransform(retina, 0, 0, retina, 0, 0)
-                    ctx.rect(
-                      imageObject.left / 2,
-                      imageObject.top,
-                      imageGroupClipWidth - offsetPadding,
-                      imageGroupHeight - offsetPadding
-                    )
-                    ctx.closePath()
-                    ctx.restore()
-                  }
-                }
-
-                this.canvas.add(imageGroup)
-
-                /*
-                              const square = new fabric.Rect({
-
-                                width: this.minGridSize / 2,
-                                height: this.minGridSize / 2,
-                                left: imageObject.left,
-                                top: imageObject.top,
-                                fill: 'red',
-                                opacity: 0.5
-
-                              });
-
-
-                              this.canvas.add(square);
-
-                               */
-
-                // We don't need to add Age Shape if we don't have any data/photo exif date
-                // Or if there is an image error, e.g user trying to upload photo that was
-                // ...taken before baby's birthday
-                if (!image.age || image.error) {
-                  return
-                }
-                const ageObject = {
-                  ...image.age,
-                  number: image.age.number,
-                  text: image.age.text
-                }
-
-                this.drawDateShape(theme, ageObject).then(shape => {
-                  const ageShapeOffset = 20
-
-                  const newIndex = index + 1
-
-                  if (newIndex == 1) {
-                    shape.set('left', ageShapeOffset)
-                    shape.set(
-                      'top',
-                      this.onlyTwoImages || this.onlyThreeImages
-                        ? imageHeight +
-                          imageHeight -
-                          shape.height -
-                          ageShapeOffset
-                        : imageHeight - shape.height - ageShapeOffset
-                    )
-                  }
-
-                  if (newIndex == 2) {
-                    shape.set(
-                      'left',
-                      imageWidth + imageWidth - shape.width - ageShapeOffset
-                    )
-                    // if x2 images display 2nd image in bottom right corner
-                    shape.set(
-                      'top',
-                      this.onlyTwoImages
-                        ? imageHeight +
-                          imageHeight -
-                          shape.height -
-                          ageShapeOffset
-                        : imageHeight - shape.height - ageShapeOffset
-                    )
-                  }
-
-                  if (newIndex == 3) {
-                    shape.set(
-                      'left',
-                      this.onlyThreeImages
-                        ? imageWidth + imageWidth - shape.width - ageShapeOffset
-                        : ageShapeOffset
-                    )
-                    shape.set(
-                      'top',
-                      imageHeight + imageHeight - shape.height - ageShapeOffset
-                    )
-                  }
-
-                  if (newIndex == 4) {
-                    shape.set(
-                      'left',
-                      imageWidth + imageWidth - shape.width - ageShapeOffset
-                    )
-                    shape.set(
-                      'top',
-                      imageHeight + imageHeight - shape.height - ageShapeOffset
-                    )
-                  }
-
-                  if (newIndex == 5) {
-                    shape.set(
-                      'left',
-                      this.onlyFiveImages
-                        ? imageWidth / 2 + ageShapeOffset
-                        : ageShapeOffset
-                    )
-                    shape.set(
-                      'top',
-                      imageHeight +
-                        imageHeight +
-                        imageHeight -
-                        shape.height -
-                        ageShapeOffset
-                    )
-                  }
-
-                  if (newIndex == 6) {
-                    shape.set(
-                      'left',
-                      imageWidth + imageWidth - shape.width - ageShapeOffset
-                    )
-                    shape.set(
-                      'top',
-                      imageHeight +
-                        imageHeight +
-                        imageHeight -
-                        shape.height -
-                        ageShapeOffset
-                    )
-                  }
-
-                  this.canvas.add(shape).renderAll()
-                })
-              })
-            )
-          )
-        })
-        Promise.all(imagePromises).then(() => {
-          this.addText()
-          this.resizeCanvas()
-          // this.addCanvasObjects()
-        })
-      }
-
-      //this.addText()
-      this.bindEvents()
+      this.renderTemplate().then(() => {
+        console.log('render template finished')
+        this.bindEvents()
+        this.resizeCanvas()
+      })
     },
 
     disableSelection() {
@@ -652,8 +350,8 @@ export default {
                             top: obj.top
                           }
                       const newPosition = getPosition(
-                        this.image.width,
-                        this.image.height,
+                        this.theme.width,
+                        this.theme.height,
                         svgObjectPosition,
                         40,
                         'x',
@@ -679,212 +377,6 @@ export default {
                 }
               })
             }, */
-    addText() {
-      if (this.isThumb) {
-        return
-      }
-
-      if (!this.isGridLayout) {
-        const textId = 'newText_' + new Date().getUTCMilliseconds()
-        const textObject = {
-          type: 'text',
-          font: 'BrochaAltW05-Book',
-          size: 62,
-          colour: '#000000',
-          backgroundColour: 'transparent',
-          position: 'topLeft'
-        }
-        this.drawTextBackground(textId, null, textObject)
-      }
-
-      if (this.isGridLayout) {
-        let positionObject = getPosition(
-          this.minGridSize,
-          this.minGridSize,
-          'middle',
-          0,
-          'x',
-          'y'
-        )
-
-        this.addShape(positionObject).then((shape, topOffset = 0) => {
-          const scaledWidth = shape.width * shape.scaleX
-          const circleText = new fabric.Text(this.canvasData.style.text, {
-            id: 'text',
-            fontFamily: 'BrochaAltW05-Book',
-            fontSize: 62,
-            textAlign: 'center',
-            left: 0,
-            top: 0,
-            fill: '#FFF' || 'red',
-            stroke: '',
-            charSpacing: 50,
-            width: scaledWidth
-          })
-          circleText.scaleToWidth(scaledWidth / 2, true)
-          let newCoordinates = positionObject.coordinates
-          if (shape.topOffset) {
-            newCoordinates = {
-              ...positionObject.coordinates,
-              y: positionObject.coordinates.y - shape.topOffset
-            }
-          }
-          circleText.setPositionByOrigin(
-            newCoordinates,
-            positionObject.originX,
-            positionObject.originY
-          )
-          this.canvas.add(circleText).renderAll()
-        })
-      }
-    },
-    addShape(positionObject) {
-      return new Promise(resolve => {
-        let shapeSize = this.minGridSize / 8
-        let shape = null
-        console.log('addShape theme', this.theme)
-
-        if (this.theme.id === 'heart_v1') {
-          fabric.loadSVGFromURL(
-            `./svgs/shapes/heart.svg`,
-            (objects, options) => {
-              shapeSize = this.minGridSize / 3
-              const fillColour = this.canvasData.style.colour
-              shape = fabric.util.groupSVGElements(objects, options)
-              shape.set('fill', fillColour)
-              shape.scaleToWidth(shapeSize, true)
-              shape.setPositionByOrigin(
-                positionObject.coordinates,
-                positionObject.originX,
-                positionObject.originY
-              )
-              // need to manuallly vertically align text inside heart
-              shape.set('topOffset', 20)
-              resolve(shape)
-              this.canvas.add(shape).renderAll()
-            }
-          )
-        } else if (this.theme.id === 'balloon_v1') {
-          fabric.loadSVGFromURL(
-            `./svgs/shapes/star.svg`,
-            (objects, options) => {
-              shapeSize = this.minGridSize / 3
-              const fillColour = this.canvasData.style.colour
-              shape = fabric.util.groupSVGElements(objects, options)
-              shape.set('fill', fillColour)
-              shape.scaleToWidth(shapeSize, true)
-              shape.setPositionByOrigin(
-                positionObject.coordinates,
-                positionObject.originX,
-                positionObject.originY
-              )
-              // need to manuallly vertically align text inside heart
-              shape.set('topOffset', -20)
-              resolve(shape)
-              this.canvas.add(shape).renderAll()
-            }
-          )
-        } else if (this.theme.id === 'flower_v1') {
-          fabric.loadSVGFromURL(
-            `./svgs/shapes/flower.svg`,
-            (objects, options) => {
-              shapeSize = this.minGridSize / 3
-              const fillColour = this.canvasData.style.colour
-              shape = fabric.util.groupSVGElements(objects, options)
-              shape.set('fill', fillColour)
-              shape.scaleToWidth(shapeSize, true)
-              shape.setPositionByOrigin(
-                positionObject.coordinates,
-                positionObject.originX,
-                positionObject.originY
-              )
-              // need to manuallly vertically align text inside heart
-              shape.set('topOffset', 0)
-
-              //debugger
-              // Added shape for background text
-              const shapeCircleSize = shape.width / 3.25
-              const shapeCircle = new fabric.Circle({
-                top: 0,
-                left: 0,
-                radius: shapeCircleSize,
-                fill: this.canvasData.style.colour,
-                centeredScaling: true,
-                padding: 10,
-                hasRotatingPoint: false
-              })
-              shapeCircle.setPositionByOrigin(
-                positionObject.coordinates,
-                positionObject.originX,
-                positionObject.originY
-              )
-              const shapeGroup = new fabric.Group([shapeCircle, shape])
-              this.canvas.add(shapeGroup).renderAll()
-              resolve(shapeGroup)
-            }
-          )
-        } else {
-          shape = new fabric.Circle({
-            top: 0,
-            left: 0,
-            radius: shapeSize,
-            fill: this.canvasData.style.colour,
-            centeredScaling: true,
-            padding: 10,
-            hasRotatingPoint: false
-          })
-          shape.setPositionByOrigin(
-            positionObject.coordinates,
-            positionObject.originX,
-            positionObject.originY
-          )
-          resolve(shape)
-          this.canvas.add(shape).renderAll()
-        }
-      })
-    },
-    addInlineSvg(svg) {
-      const svgElement = document.getElementById(svg.id)
-      const svgString = svgElement.innerHTML
-      fabric.loadSVGFromString(svgString, (objects, options) => {
-        const loadedObject = fabric.util.groupSVGElements(objects, options)
-        loadedObject.set('sourcePath', svgElement.getAttribute('data-url'))
-        const scaledWidth = this.image.width / 2
-        // const scaledHeight = this.image.height / 2
-        this.canvas.add(loadedObject)
-
-        /* const positionPadding =
-                        this.isTouchDevice && this.image.url
-                            ? CANVAS_PADDING / 2
-                            : CANVAS_PADDING  */
-
-        const positionPadding = CANVAS_PADDING
-
-        let positionObject = getPosition(
-          this.image.width,
-          this.image.height,
-          svg.position,
-          positionPadding,
-          'x',
-          'y'
-        )
-        loadedObject.scaleToWidth(scaledWidth, true)
-
-        loadedObject.setPositionByOrigin(
-          positionObject.coordinates,
-          positionObject.originX,
-          positionObject.originY
-        )
-
-        loadedObject.set({
-          id: svg.id,
-          angle: svg.angle
-        })
-
-        loadedObject.setCoords() // Important: needed so you can select object
-        this.canvas.renderAll()
-      })
-    },
 
     addSvg(svg) {
       svg = {
@@ -907,8 +399,8 @@ export default {
              */
         this.canvas.add(loadedObject)
         const positionObject = getPosition(
-          this.image.width,
-          this.image.height,
+          this.theme.width,
+          this.theme.height,
           svg.position,
           0,
           'x',
@@ -925,16 +417,11 @@ export default {
       })
     },
     resizeCanvas() {
+
+      console.log('resize canvas')
+
       let width = this.imageWidth
       let height = this.imageHeight
-
-      if (this.isGridLayout) {
-        // Set max canvas width to 1080 for grid layout
-        // Need a fix value for landscape layout
-        width = this.maxCanvasWidth
-        height = this.maxCanvasHeight
-        console.log('resizeCanvas', width, height)
-      }
 
       // https://stackoverflow.com/questions/22387627/how-to-save-an-image-in-its-original-size-in-a-canvas-after-scaled-the-canvas
       const canvasContainer = document.getElementById(this.canvasId)
@@ -942,10 +429,6 @@ export default {
       // Set size that the Canvas will download at
       this.canvas.setHeight(height)
       this.canvas.setWidth(width)
-
-      if (this.isGridLayout) {
-        this.canvas.setHeight(height)
-      }
 
       const maxWidth = canvasContainer.offsetWidth
       const maxHeight = canvasContainer.offsetHeight
@@ -960,10 +443,6 @@ export default {
       )
 
       this.canvas.renderAll()
-    },
-    renderTemplate() {
-      // Start Media Kit Template 01
-      this.renderMediaImage()
     },
     deactivateAll() {
       return new Promise(resolve => {
@@ -995,8 +474,8 @@ export default {
         // Ratio is different for Landscape & Portrait images
         const downloadRatio =
           this.image.originalWidth > this.image.originalHeight
-            ? this.image.originalWidth / this.image.width
-            : this.image.originalHeight / this.image.height
+            ? this.image.originalWidth / this.theme.width
+            : this.image.originalHeight / this.theme.height
 
         this.canvas.setZoom(downloadRatio)
         this.canvas.setHeight(this.image.originalHeight)

@@ -7,6 +7,8 @@ export const THEMES = [
     id: 'default',
     slug: 'default',
     title: 'Default',
+    width: 2480,
+    height: 3508,
     date: {
       age: false,
       font: 'BrochaAltW05-Book',

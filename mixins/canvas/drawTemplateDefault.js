@@ -13,14 +13,14 @@ export const drawTemplateDefault = {
       const headerBar = new fabric.Rect({
         left: 0,
         top: 0,
-        width: this.image.width,
+        width: this.theme.width,
         height: 25,
-        fill: 'rgba(0,0,0,1)'
+        fill: this.canvasData.style.colour
       })
       const headerBackground = new fabric.Rect({
-        left: this.image.width / 4,
+        left: this.theme.width / 4,
         top: 0,
-        width: this.image.width / 2,
+        width: this.theme.width / 2,
         height: 300,
         fill: 'rgba(255,255,255,0.5)',
         stroke: 'rgba(34,177,76,1)',
@@ -34,7 +34,7 @@ export const drawTemplateDefault = {
         textAlign: 'center',
         left: 0,
         top: 0,
-        fill: '#000',
+        fill: this.canvasData.style.colour,
         stroke: '',
         charSpacing: 50,
         width: headerBackground.width
@@ -42,7 +42,7 @@ export const drawTemplateDefault = {
       headerText.scaleToWidth(headerBackground.width / 1.5, true)
 
       let positionObject = getPosition(
-        this.image.width,
+        this.theme.width,
         headerBackground.height,
         'middle',
         0,
@@ -61,15 +61,57 @@ export const drawTemplateDefault = {
       this.canvas.add(headerGroup)
       this.canvas.add(headerBar)
     },
+    renderTemplateDefaultTagline() {
+      const taglineBackground = new fabric.Rect({
+        left: 0,
+        top: 0,
+        width: this.theme.width / 2,
+        height: 100,
+        fill: 'transparent'
+      })
+
+      const taglineText = new fabric.Text(this.website.data.tagline.value, {
+        id: 'taglineText',
+        fontFamily: 'gill-sans-medium',
+        fontSize: 50,
+        textAlign: 'left',
+        left: 0,
+        top: 0,
+        fill: this.canvasData.style.colour,
+        charSpacing: 50
+      })
+      //taglineText.scaleToWidth(taglineBackground.width / 3, true)
+
+      let positionObject = getPosition(
+        this.theme.width,
+        taglineBackground.height,
+        'middle',
+        0,
+        'x',
+        'y'
+      )
+      taglineText.setPositionByOrigin(
+        positionObject.coordinates,
+        positionObject.originX,
+        positionObject.originY
+      )
+
+      let taglineGroup = new fabric.Group([taglineBackground, taglineText], {})
+      taglineGroup.set('top', 1600)
+      //taglineGroup.set('angle', -270).set('flipX', true).set('flipY', true)
+      taglineGroup.set('left', 0)
+
+      this.canvas.add(taglineGroup)
+    },
     renderTemplateDefaultSocialBackground() {
       const socialHeight = 300
       // const socialRadius = 20
       const socialBackground = new fabric.Rect({
         left: 0,
         top: 0,
-        width: this.image.width,
+        width: this.theme.width,
         height: socialHeight,
-        fill: 'rgba(255,255,255,0.6)',
+        fill: 'rgba(255,255,255,0.7)',
         stroke: 'rgba(34,177,76,1)',
         strokeWidth: 0
         //rx: socialRadius,
@@ -94,7 +136,13 @@ export const drawTemplateDefault = {
             // const fillColour = this.canvasData.style.colour
             let logo = fabric.util.groupSVGElements(objects, options)
             const textLeftOffset = 150
-            logo.set('fill', '#000')
+            logo.set('fill', this.canvasData.style.colour)
+            const childLogoObjects = logo._objects
+            if (childLogoObjects) {
+              childLogoObjects.forEach(obj => {
+                obj.set('fill', this.canvasData.style.colour)
+              })
+            }
             logo.scaleToWidth(logoSize, true)
             const logoUsername = new fabric.Text(username, {
               id: `${icon}Text`,
@@ -103,7 +151,7 @@ export const drawTemplateDefault = {
               textAlign: 'left',
               left: textLeftOffset,
               top: 75,
-              fill: '#000',
+              fill: this.canvasData.style.colour,
               stroke: '',
               charSpacing: 50
             })
@@ -115,7 +163,7 @@ export const drawTemplateDefault = {
               textAlign: 'center',
               left: textLeftOffset,
               top: -20,
-              fill: '#000',
+              fill: this.canvasData.style.colour,
               stroke: '',
               charSpacing: 0
             })
@@ -138,7 +186,7 @@ export const drawTemplateDefault = {
         textAlign: 'left',
         left: 100,
         top: firstRowTopTitle,
-        fill: '#000',
+        fill: this.canvasData.style.colour,
         stroke: '',
         charSpacing: 50
       })
@@ -171,7 +219,7 @@ export const drawTemplateDefault = {
           textAlign: 'left',
           left: 100,
           top: secondRowTopTitle,
-          fill: '#000',
+          fill: this.canvasData.style.colour,
           stroke: '',
           charSpacing: 50
         }
@@ -205,7 +253,7 @@ export const drawTemplateDefault = {
           textAlign: 'left',
           left: 1500,
           top: firstRowTopTitle,
-          fill: '#000',
+          fill: this.canvasData.style.colour,
           stroke: '',
           charSpacing: 50
         }
@@ -244,7 +292,7 @@ export const drawTemplateDefault = {
           textAlign: 'left',
           left: 1500,
           top: secondRowTopTitle,
-          fill: '#000',
+          fill: this.canvasData.style.colour,
           stroke: '',
           charSpacing: 50
         }
@@ -275,9 +323,9 @@ export const drawTemplateDefault = {
       const footerBackground = new fabric.Rect({
         left: 0,
         top: 0,
-        width: this.image.width,
+        width: this.theme.width,
         height: footerHeight,
-        fill: 'rgba(0,0,0,1)'
+        fill: this.canvasData.style.colour
       })
       const addressText = new fabric.Text(
         urlNoProtocol(this.website.data.url.value),
@@ -310,7 +358,7 @@ export const drawTemplateDefault = {
       // footerText.scaleToWidth(footerBackground.width / 2, true)
 
       let positionAddressObject = getPosition(
-        this.image.width,
+        this.theme.width,
         footerBackground.height,
         'bottomLeft',
         100,
@@ -319,7 +367,7 @@ export const drawTemplateDefault = {
       )
 
       let positionEmailObject = getPosition(
-        this.image.width,
+        this.theme.width,
         footerBackground.height,
         'bottomRight',
         100,
@@ -345,7 +393,7 @@ export const drawTemplateDefault = {
         [footerBackground, addressText, emailText],
         {}
       )
-      footerGroup.set('top', this.image.height - footerHeight)
+      footerGroup.set('top', this.theme.height - footerHeight)
       footerGroup.set('selectable', false)
 
       this.canvas.add(footerGroup)

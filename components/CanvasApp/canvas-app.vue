@@ -3,6 +3,11 @@
     :class="{ 'CanvasApp--active': show.canvasApp }"
     class="CanvasApp">
     <spinner v-if="loading" />
+
+    <div class="CanvasApp__column">
+      <canvas-edit :website="website" />
+    </div>
+
     <div class="CanvasApp__column CanvasApp__column--canvas">
       <canvas-top
         v-if="canvasData && userTheme"
@@ -52,7 +57,6 @@
         ref="fileInput"
         aria-label="Change Background"
         type="file"
-        multiple
         accept="image/x-png,image/gif,image/jpeg"
         class="canvasApp__inputfile gt-hidden"
         @change="changeBackground">
@@ -84,10 +88,6 @@
 
       </div>
 
-    </div>
-
-    <div class="CanvasApp__column">
-      <canvas-edit :website="website" />
     </div>
     
   </div>
@@ -530,31 +530,22 @@ export default {
 @import '../../scss/homepage.scss';
 
 .CanvasApp {
-  display: grid;
-  grid-template-columns: 1fr;
   padding: $padding;
-  &__column {
-    order: 1;
-    &--canvas {
-      order: 2;
-    }
-  }
 }
 
 // Desktop Styles
 @include media-query('medium') {
   .CanvasApp {
     background-color: #dedede;
+    display: flex;
     margin: 0 auto;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: $padding;
+    flex-direction: row-reverse;
     margin-bottom: $padding * 2;
     padding: $padding * 2;
     &__column {
-      order: 2;
+      width: 50%;
       &--canvas {
-        order: 1;
-        width: 800px;
+        margin-right: $padding * 2;
       }
     }
   }

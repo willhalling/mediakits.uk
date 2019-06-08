@@ -10,6 +10,11 @@ const state = {
         value: 'Joanna Bloggs',
         type: 'text'
       },
+      tagline: {
+        name: 'Tagline',
+        value: 'Photographer & Lifestyle blogger',
+        type: 'text'
+      },
       url: {
         name: 'url',
         value: 'http://www.joannabloggs.com',
@@ -28,12 +33,7 @@ const state = {
       aboutDescription: {
         name: 'About text',
         value:
-          "I'm Katy, 30. I am married to Thomas and we " +
-          'have one daughter, Daisy Blue. I love to share ' +
-          'my views on parenting, products, family life, ' +
-          'personal finance & more. I enjoy helping people ' +
-          'make money, save money and change their lives ' +
-          "for the better.'",
+          "I'm Joanne, 30. I am glued to my camera and sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
         type: 'textarea'
       },
       myVisitorsTitle: {
@@ -53,7 +53,8 @@ const state = {
       },
       theBlogDescription: {
         name: 'The Blog Description',
-        value: 'I started the blog twos years ago and in this time ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+        value:
+          'I started the blog two years ago and in this time ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
         type: 'textarea'
       },
       myStatsTitle: {
@@ -174,6 +175,8 @@ const mutations = {
     state.images = newImages
   },
   addImage(state, image) {
+    // remove this if allowing more than one image on a template
+    state.images = []
     state.images.push(image)
   },
   resetImage(state) {

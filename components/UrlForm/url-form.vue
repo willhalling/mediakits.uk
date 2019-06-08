@@ -12,7 +12,7 @@
         <field
           v-model="form.url"
           class="UrlForm__field"
-          placeholder="URL e.g. https://www.example.com"
+          placeholder="https://www.example.com"
           type="text"
         />
         <button-cta
