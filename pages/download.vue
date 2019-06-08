@@ -1,13 +1,7 @@
 <template>
   <div>
     <gt-header />
-    <canvas-app
-      ref="canvasApp"
-      :user-image="userImage"
-      :user-images="userImages"
-      :fonts-ready="true"
-    />
-
+    <canvas-download />
     <progress-nav
       :step="step"
       :disable-save="disableSaveButton"
@@ -21,18 +15,18 @@ import { mapGetters } from 'vuex'
 import { progressNavMixin } from '~/mixins/progressNavMixin'
 
 export default {
-  name: 'Maker',
+  name: 'Download',
   mixins: [progressNavMixin],
   transition: 'page',
   head() {
     return {
-      title: 'Easy Media Kit Online Maker',
+      title: 'Download | Easy Media Kit Maker',
       meta: [
         // hid is used as unique identifier. Do not use `vmid` for it as it will not work
         {
           hid: 'description',
           name: 'description',
-          content: 'Online media kit maker for your business.'
+          content: 'Download your online media kit maker for your business.'
         }
       ]
     }
@@ -41,17 +35,14 @@ export default {
     ...mapGetters({
       step: 'global/step',
       userImage: 'user/image',
-      userImages: 'user/images'
+      userImages: 'user/images',
+      website: 'user/website'
     })
   },
   mounted() {
-    this.$store.commit('global/goToStep', 2)
+    this.$store.commit('global/goToStep', 3)
   },
-  methods: {
-    nextStep() {
-      return this.$refs.canvasApp.parentGenerateImage()
-    }
-  }
+  methods: {}
 }
 </script>
 
@@ -59,10 +50,10 @@ export default {
 @import '../scss/typography.scss';
 @import '../scss/variables.scss';
 @import '../scss/mixins.scss';
-.Maker {
+.Download {
 }
 @include media-query('medium') {
-  .Maker {
+  .Download {
   }
 }
 </style>

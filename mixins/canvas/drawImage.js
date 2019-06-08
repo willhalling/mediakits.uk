@@ -197,21 +197,17 @@ export const drawImageMixin = {
 
         // const fontPromises = []
         this.canvas.add(imageGroup)
-        this.renderTemplateHeader()
-        this.renderTemplateSocialBackground()
+        this.renderTemplateDefaultHeader()
+        this.renderTemplateDefaultSocialBackground()
 
-        const social_networks = [
-          'facebook',
-          'twitter',
-          'youtube',
-        ]
+        const social_networks = ['facebook', 'twitter', 'youtube']
         const socialPromises = []
         let socialMediaGroup = new fabric.Group()
         let networkNameWidth = 0
         social_networks.forEach((networkName, index) => {
           socialPromises.push(
             Promise.resolve(
-              this.renderTemplateSocial(networkName, 550 * index).then(
+              this.renderTemplateDefaultSocial(networkName, 550 * index).then(
                 social => {
                   networkNameWidth += social.width
                   console.log('networkNameWidth', networkNameWidth)
@@ -224,13 +220,13 @@ export const drawImageMixin = {
 
         Promise.all(socialPromises).then(() => {
           let socialMediaGroupTop = 1320
-          switch(social_networks.length) {
+          switch (social_networks.length) {
             case 4:
               socialMediaGroupTop = 1310
-              break;
+              break
             case 5:
               socialMediaGroupTop = 1330
-              break;
+              break
             default:
               socialMediaGroupTop = 1320
           }
@@ -247,9 +243,13 @@ export const drawImageMixin = {
           socialMediaGroup.set('selectable', false)
           this.canvas.add(socialMediaGroup)
         })
-        this.renderTemplateMyVisitors()
-        this.renderTemplateFooter()
-        this.renderTemplateAbout(imageGroup)
+        this.renderTemplateDefaultMyVisitors()
+        this.renderTemplateDefaultMyStats()
+        this.renderTemplateDefaultFooter()
+        this.renderTemplateDefaultAbout()
+        this.renderTemplateDefaultTheBlog()
+
+        this.$store.commit('global/updateLoading', false)
       })
     },
     drawHeaderImage(image) {

@@ -124,7 +124,7 @@ module.exports = {
     middleware: 'pages'
   },
   server: {
-    port: 5500, // default: 3000
+    port: 3500, // default: 3000
     // host: '192.168.1.3' // default: localhost
   }
 }

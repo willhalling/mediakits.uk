@@ -1,14 +1,15 @@
 <template>
-  <div class="Download">
-    <div>
+  <div class="CanvasDownload">
+    <spinner v-if="loading" />
+    <div 
+      v-if="imageInfo" 
+      class="CanvasDownload__container">
       <img
         :src="downloadImage"
         class="gt-border-white gt-margin-bottom">
-    </div>
-    <div>
-      <list
-        :items="imageInfo"
-        class="gt-margin-bottom-x-large" />
+      <div>
+        <list :items="imageInfo"/>
+      </div>
     </div>
   </div>
 </template>
@@ -17,7 +18,7 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Download',
+  name: 'CanvasDownload',
   data() {
     return {
       downloadImage: null,
@@ -27,7 +28,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      isTouchDevice: 'user/isTouchDevice'
+      isTouchDevice: 'user/isTouchDevice',
+      loading: 'global/loading'
     }),
     imageSlug() {
       return this.$route.query.name ? this.$route.query.name : 'download'
@@ -35,11 +37,9 @@ export default {
   },
 
   mounted() {
+    this.$store.commit('global/updateLoading', true)
     this.downloadImage = sessionStorage.getItem('gt_canvas_img')
     this.getImageInfo()
-    setTimeout(() => {
-      this.$store.commit('global/updateLoading', false)
-    }, 500)
   },
   methods: {
     getImageInfo() {
@@ -47,11 +47,14 @@ export default {
         const img = new Image()
         img.onload = () => {
           this.imageInfo = [
-            { key: 'Size (w x h)', value: `${img.width} x ${img.height}` },
+            { key: 'Size (w x h)', value: `${img.width} x ${img.height} (300 DPI)` },
             // { key: 'File Size', value: '5mb' },
-            { key: 'File type', value: 'JPEG' },
-            { key: 'File name', value: `${this.imageSlug}.jpeg` }
+            { key: 'File type', value: 'PDF' },
+            { key: 'File name', value: `${this.imageSlug}.pdf` }
           ]
+          setTimeout(() => {
+            this.$store.commit('global/updateLoading', false)
+          }, 500)
         }
         img.src = this.downloadImage
       }
@@ -69,23 +72,30 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../../scss/_variables.scss';
-@import '../../scss/_mixins.scss';
+@import '../../../scss/_variables.scss';
+@import '../../../scss/_mixins.scss';
 
-.Download {
-  max-width: $siteWidth;
-  padding: 0 $padding;
-  margin: 0 auto;
+.CanvasDownload {
+  background-color: #dedede;
+  padding-top: $padding * 2;
+  &__container {
+    max-width: $siteWidth;
+    padding: $padding;
+    margin: 0 auto;
+  }
 }
 
 // Desktop Styles
 @include media-query('medium') {
-  .Download {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: $padding;
+  .CanvasDownload {
     padding-left: 0;
     padding-right: 0;
+    &__container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-gap: $padding * 2;
+      padding: 0;
+    }
   }
 }
 </style>

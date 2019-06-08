@@ -2,7 +2,21 @@
   <div class="CanvasEdit">
     <div
       class="CanvasEdit__container">
-      Canvas Edit
+      <form>
+
+        <span 
+          v-for="(item, index) in website.data" 
+          :key="index">
+          <field
+            v-if="item.value"
+            :type="item.type"
+            v-model="item.value"
+            :name="item.name"
+            placeholder="Enter text" />
+        </span>
+
+      </form>
+
     </div>
 
   </div>
@@ -15,7 +29,7 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'CanvasEdit',
   props: {
-    websiteData: {
+    website: {
       type: Object,
       required: true
     }
@@ -24,33 +38,16 @@ export default {
     return {}
   },
   computed: {},
-  mounted() {
-    //this.colours.value = this.canvasData.style.colour
-    //this.text.value = this.canvasData.style.text
-  },
+  mounted() {},
   methods: {
-    onInput(value) {
-      if (!value) {
-        return
-      }
+    onInput(value, name) {
+      console.log('onInput')
       // Trigger Vue Reactivity to update theme object
-      this.canvasData.style = {
-        ...this.canvasData.style,
-        text: value
-      }
-    },
-    updateColour(value, type) {
-      if (!value) {
-        return
-      }
-      // Trigger Vue Reactivity to update theme object
-      this.canvasData.style = {
-        ...this.canvasData.style,
-        colour: value
-      }
-      // If user clicks on sub colour4, close.
-      if (type === 'variation') {
-        this.colours.open = false
+      this.website.data = {
+        ...this.website.data,
+        [name]: {
+          value: value
+        }
       }
     }
   }

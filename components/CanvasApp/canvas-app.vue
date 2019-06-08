@@ -2,7 +2,7 @@
   <div
     :class="{ 'CanvasApp--active': show.canvasApp }"
     class="CanvasApp">
-
+    <spinner v-if="loading" />
     <div class="CanvasApp__column CanvasApp__column--canvas">
       <canvas-top
         v-if="canvasData && userTheme"
@@ -67,19 +67,12 @@
             :theme="userTheme"
             :image="userImage"
             :images="userImages"
-            :website-data="websiteData"
+            :website="website"
             :clear-objects="clearObjects"
             @triggerTrayToggle="toggleTray('edit', $event)"
             @onSubmitForm="triggerSubmitForm"
           />
         </div>
-        <!--
-      <canvas-slider
-        :current-theme="userTheme.id"
-        :canvas-data="canvasData"
-        :themes="formattedThemes"
-        @on-change-theme="changeTheme"/>
-        -->
 
         <counter-base
           id="counter"
@@ -94,18 +87,15 @@
     </div>
 
     <div class="CanvasApp__column">
-      <canvas-edit :website-data="websiteData" />
+      <canvas-edit :website="website" />
     </div>
     
   </div>
 </template>
 
 <script>
-import CanvasEdit from "./templates/canvas-edit";
-const dateFormat = require('dateformat')
 import { firebase, storage, auth } from '~/plugins/firebase.js'
 import findOrientation from 'exif-orientation'
-import { DATE_FORMATS } from '~/constants/dates'
 import { uuidv4 } from '~/utils/image'
 
 const EXIF = require('exif-js')
@@ -116,8 +106,7 @@ import { trayMixin } from '../../mixins/trayMixin'
 import { localStorageMixin } from '../../mixins/localStorageMixin'
 import { THEMES } from '../../constants/themes'
 import { setImageRatio } from '../../utils/image'
-import { parseDate, getAge, ageText } from '~/utils/date'
-// import { encode } from '~/utils/netlify'
+import { parseDate } from '~/utils/date'
 
 import { mapGetters } from 'vuex'
 
@@ -125,7 +114,6 @@ const LOCAL_STORAGE_KEY = 'gt_img_upload_url'
 
 export default {
   name: 'CanvasApp',
-  components: {CanvasEdit},
   mixins: [trayMixin, ageMixin, searchMixin, localStorageMixin],
   props: {
     fontsReady: {
@@ -138,10 +126,6 @@ export default {
     },
     userImages: {
       type: Array,
-      required: false
-    },
-    websiteData: {
-      type: Object,
       required: false
     }
   },
@@ -167,14 +151,15 @@ export default {
   },
   computed: {
     ...mapGetters({
+      loading: 'global/loading',
       userTheme: 'user/theme',
       age: 'user/age',
       isTouchDevice: 'user/isTouchDevice',
       rawBirthday: 'user/rawBirthday',
-      canvasNavText: 'global/canvasNav'
+      canvasNavText: 'global/canvasNav',
+      website: 'user/website'
     })
   },
-  scrollToTop: true,
   mounted() {
     this.formattedThemes = this.getFormattedThemes()
     if (this.formattedThemes) {
@@ -545,7 +530,15 @@ export default {
 @import '../../scss/homepage.scss';
 
 .CanvasApp {
+  display: grid;
+  grid-template-columns: 1fr;
   padding: $padding;
+  &__column {
+    order: 1;
+    &--canvas {
+      order: 2;
+    }
+  }
 }
 
 // Desktop Styles
@@ -553,13 +546,14 @@ export default {
   .CanvasApp {
     background-color: #dedede;
     margin: 0 auto;
-    display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: $padding * 2;
+    grid-gap: $padding;
     margin-bottom: $padding * 2;
     padding: $padding * 2;
     &__column {
+      order: 2;
       &--canvas {
+        order: 1;
         width: 800px;
       }
     }

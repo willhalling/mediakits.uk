@@ -4,92 +4,37 @@
     class="home">
     <gt-header />
     <div class="home__container gt-padding-bottom-large">
-      <hero v-if="step === 1" />
+      <hero />
       <div
-        v-if="step === 1"
         id="urlForm"
         class="home__urlForm">
         <url-form />
       </div>
-      <div v-if="step === 2">
-        <canvas-app
-          ref="canvasApp"
-          :user-image="userImage"
-          :user-images="userImages"
-          :website-data="websiteData"
-          :fonts-ready="true"
-        />
-      </div>
-    </div>
-    <div v-if="step === 3">
-      <download />
     </div>
     <progress-nav
       :step="step"
-      :disable-save="disableSaveButton"
-      @progress-previous="previousStep"
-      @progress-next="nextStep"/>
-    <how-it-works v-if="step === 1" />
+      :disable-save="disableSaveButton"/>
+    <how-it-works />
     <gt-footer />
   </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters } from 'vuex'
 import { localStorageMixin } from '~/mixins/localStorageMixin'
+import { progressNavMixin } from '~/mixins/progressNavMixin'
 const axios = require('axios')
 const CircularJSON = require('circular-json')
 const cheerio = require('cheerio')
 
 export default {
   name: 'Index',
-  mixins: [localStorageMixin],
+  mixins: [localStorageMixin, progressNavMixin],
   transition: 'page',
   scrollToTop: true,
   data() {
     return {
       $: '',
-      websiteData: {
-        title: 'Joanna Bloggs',
-        url: 'http://www.joannabloggs.com',
-        email: 'hello@joannabloggs.com',
-        description:
-          "I'm Katy, 30. I am married to Thomas and we " +
-          'have one daughter, Daisy Blue. I love to share ' +
-          'my views on parenting, products, family life, ' +
-          'personal finance & more. I enjoy helping people ' +
-          'make money, save money and change their lives ' +
-          "for the better. I'm based in Essex and my posts " +
-          'appeal to women aged 25-44 who want to ' +
-          'manage their finances well.',
-        stats: {
-          social_media: {
-            facebook: {
-              username: '',
-              total_followers: 5800
-            },
-            instagram: {
-              username: '',
-              total_followers: 5000
-            },
-            twitter: {
-              username: '',
-              total_followers: 2000
-            },
-            pinterest: {
-              username: '',
-              total_followers: 3000
-            },
-            total_followers: 25000
-          },
-          monthly_visitors: 25000,
-          monthly_page_views: 35000,
-          my_visitors: {
-            males: '0%',
-            females: '0%'
-          }
-        }
-      }
     }
   },
   async asyncData({ params, query }) {
@@ -123,15 +68,11 @@ export default {
       step: 'global/step',
       userImage: 'user/image',
       userImages: 'user/images'
-    }),
-    disableSaveButton() {
-      if (this.step > 1) {
-        return false
-      }
-      return false
-    }
+    })
   },
   mounted() {
+    this.$store.commit('global/goToStep', 1)
+    
     this.$store.subscribe((mutation, state) => {
       // Store the state object as a JSON string
       // Push user store module to local storage every time there is an update.
@@ -143,14 +84,10 @@ export default {
     }
     this.$ = cheerio.load(this.json.data)
 
-    this.updateWebsiteData()
+    this.updateWebsite()
   },
   methods: {
-    ...mapActions({
-      nextStepAction: 'global/nextStepAction',
-      previousStepAction: 'global/previousStepAction'
-    }),
-    updateWebsiteData() {
+    updateWebsite() {
       const meta = this.$('meta')
 
       const keys = Object.keys(meta)
@@ -182,54 +119,44 @@ export default {
       console.log(metaDescription)
       console.log(ogTitle)
 
-      this.websiteData = {
-        title: this.$('title').text(),
-        url: this.$route.query.url,
-        email: '',
-        description: metaDescription,
-        stats: {
-          social_media: {
-            facebook: {
-              username: '',
-              total_followers: 5800
+      /*
+      this.website = {
+        data: {
+          title: this.$('title').text(),
+          url: this.$route.query.url,
+          email: '',
+          description: metaDescription,
+          stats: {
+            social_media: {
+              facebook: {
+                username: '',
+                total_followers: 5800
+              },
+              instagram: {
+                username: '',
+                total_followers: 5000
+              },
+              twitter: {
+                username: '',
+                total_followers: 2000
+              },
+              pinterest: {
+                username: '',
+                total_followers: 3000
+              },
+              total_followers: 25000
             },
-            instagram: {
-              username: '',
-              total_followers: 5000
-            },
-            twitter: {
-              username: '',
-              total_followers: 2000
-            },
-            pinterest: {
-              username: '',
-              total_followers: 3000
-            },
-            total_followers: 25000
-          },
-          monthly_visitors: 25000,
-          monthly_page_views: 35000,
-          my_visitors: {
-            males: '0%',
-            females: '0%'
+            monthly_visitors: 25000,
+            monthly_page_views: 35000,
+            my_visitors: {
+              males: '0%',
+              females: '0%'
+            }
           }
         }
       }
-    },
-    previousStep() {
-      this.previousStepAction().then(() => {
-        this.$router.push({ query: { step: this.step } })
-        this.$scrollTo('#__nuxt', 0, { force: true })
-      })
-    },
-    nextStep() {
-      if (this.step === 2) {
-        this.$store.commit('user/updateExistingUser', true)
-        return this.$refs.canvasApp.parentGenerateImage()
-      }
-      this.nextStepAction().then(() => {
-        this.$router.push({ query: { step: this.step } })
-      })
+      
+       */
     }
   }
 }

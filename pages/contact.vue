@@ -1,7 +1,7 @@
 <template>
   <div>
     <gt-header />
-    <heading>Contact Easy Media Kit team</heading>
+    <heading>Contact</heading>
     <div class="Contact gt-padding-bottom">
       <div class="Contact__container gt-colour-white gt-padding-bottom-xlarge">
         <form

@@ -30,15 +30,14 @@ import { customControls } from '~/mixins/canvas/customControls'
 import { drawText } from '~/mixins/canvas/drawText'
 import { ageMixin } from '~/mixins/ageMixin'
 import { drawImageMixin } from '~/mixins/canvas/drawImage'
-import { addDisableBodyScroll, removeDisableBodyScroll } from '~/utils/scroll'
+import { drawTemplateDefault } from '~/mixins/canvas/drawTemplateDefault'
+import { urlNoProtocol } from '~/utils/text'
 
 import { FONTS } from '../../constants/fonts'
-import { DATE_FORMATS } from '../../constants/dates'
 
 import { setImageRatio } from '../../utils/image'
 
-import { getPosition, setPosition } from '../../utils/position'
-// import { formattedDate } from '../../utils/date'
+import { getPosition } from '../../utils/position'
 
 const dateFormat = require('dateformat')
 
@@ -61,8 +60,13 @@ const CANVAS_CONTROLS_VISIBILITY = {
 export default {
   name: 'CanvasContainer',
 
-  mixins: [customControls, ageMixin, drawText, drawImageMixin],
-
+  mixins: [
+    customControls,
+    ageMixin,
+    drawText,
+    drawImageMixin,
+    drawTemplateDefault
+  ],
   props: {
     canvasId: {
       type: String,
@@ -80,7 +84,7 @@ export default {
       type: Array,
       required: false
     },
-    websiteData: {
+    website: {
       type: Object,
       required: false
     },
@@ -126,7 +130,9 @@ export default {
       }
     },
     fileName() {
-      return `BabyByMonth.com Photo ${dateFormat()}`
+      return `${urlNoProtocol(
+        this.website.data.url.value
+      )} Media Kit ${dateFormat()}`
     },
     onlyOneImage() {
       return this.images && this.images.length === 1
@@ -195,6 +201,12 @@ export default {
       },
       deep: true
     },
+    website: {
+      handler() {
+        this.updateCanvas()
+      },
+      deep: true
+    },
     // Triggered when colours etc change
     canvasData: {
       handler() {
@@ -259,7 +271,7 @@ export default {
     },
     updateCanvas() {
       console.log('update canvas', this.images)
-      //this.canvas.clear()
+      this.canvas.clear()
       this.canvas.backgroundColor = CANVAS_BACKGROUND_COLOUR
       this.resizeCanvas()
 
@@ -951,273 +963,7 @@ export default {
     },
     renderTemplate() {
       // Start Media Kit Template 01
-
       this.renderMediaImage()
-    },
-    renderTemplateHeader() {
-      const headerBar = new fabric.Rect({
-        left: 0,
-        top: 0,
-        width: this.image.width,
-        height: 25,
-        fill: 'rgba(0,0,0,1)'
-      })
-
-      const headerBackground = new fabric.Rect({
-        left: this.image.width / 4,
-        top: 0,
-        width: this.image.width / 2,
-        height: 300,
-        fill: 'rgba(255,255,255,0.5)',
-        stroke: 'rgba(34,177,76,1)',
-        strokeWidth: 0
-      })
-
-      const headerText = new fabric.Text(this.websiteData.title, {
-        id: 'headerText',
-        fontFamily: this.canvasData.style.font,
-        fontSize: 128,
-        textAlign: 'center',
-        left: 0,
-        top: 0,
-        fill: '#000',
-        stroke: '',
-        charSpacing: 50,
-        width: headerBackground.width
-      })
-      headerText.scaleToWidth(headerBackground.width / 1.5, true)
-
-      let positionObject = getPosition(
-        this.image.width,
-        headerBackground.height,
-        'middle',
-        0,
-        'x',
-        'y'
-      )
-      headerText.setPositionByOrigin(
-        positionObject.coordinates,
-        positionObject.originX,
-        positionObject.originY
-      )
-
-      let headerGroup = new fabric.Group([headerBackground, headerText], {})
-      headerGroup.set('top', 100)
-
-      this.canvas.add(headerGroup)
-      this.canvas.add(headerBar)
-    },
-    renderTemplateSocialBackground() {
-      const socialHeight = 300
-      // const socialRadius = 20
-      const socialBackground = new fabric.Rect({
-        left: 0,
-        top: 0,
-        width: this.image.width,
-        height: socialHeight,
-        fill: 'rgba(255,255,255,0.6)',
-        stroke: 'rgba(34,177,76,1)',
-        strokeWidth: 0
-        //rx: socialRadius,
-        //ry: socialRadius
-      })
-      socialBackground.set('top', 1400 - socialHeight / 2)
-      socialBackground.set('left', 0)
-      socialBackground.set('selectable', false)
-      this.canvas.add(socialBackground)
-    },
-    renderTemplateSocial(
-      icon = 'facebook',
-      leftOffset = 200,
-      username = '@joebloggs',
-      text = '5,8k'
-    ) {
-      return new Promise(resolve => {
-        const logoSize = 110
-        return fabric.loadSVGFromURL(
-          `./media/social/${icon}.svg`,
-          (objects, options) => {
-            // const fillColour = this.canvasData.style.colour
-            let logo = fabric.util.groupSVGElements(objects, options)
-            const textLeftOffset = 150
-            logo.set('fill', '#000')
-            logo.scaleToWidth(logoSize, true)
-            const logoUsername = new fabric.Text(username, {
-              id: `${icon}Text`,
-              fontFamily: 'gill-sans-medium',
-              fontSize: 50,
-              textAlign: 'left',
-              left: textLeftOffset,
-              top: 75,
-              fill: '#000',
-              stroke: '',
-              charSpacing: 50
-            })
-
-            const logoText = new fabric.Text(text, {
-              id: `${icon}Text`,
-              fontFamily: 'gill-sans-bold',
-              fontSize: 72,
-              textAlign: 'center',
-              left: textLeftOffset,
-              top: -20,
-              fill: '#000',
-              stroke: '',
-              charSpacing: 0
-            })
-
-            let logoGroup = new fabric.Group([logo, logoUsername, logoText], {})
-            //logoGroup.set('top', 1320)
-            logoGroup.set('left', leftOffset)
-            // this.canvas.add(logoGroup)
-            resolve(logoGroup)
-          }
-        )
-        resolve()
-      })
-    },
-    renderTemplateAbout() {
-      const aboutText = new fabric.Text(`About ${this.websiteData.title}`, {
-        id: 'aboutText',
-        fontFamily: this.canvasData.style.font,
-        fontSize: 128,
-        textAlign: 'left',
-        left: 100,
-        top: 1650,
-        fill: '#000',
-        stroke: '',
-        charSpacing: 50
-      })
-      const aboutDescription = new fabric.Textbox(
-        `About ${this.websiteData.description}`,
-        {
-          id: 'aboutDescription',
-          fontFamily: 'gill-sans-medium',
-          fontSize: 50,
-          textAlign: 'left',
-          left: 100,
-          top: 1900,
-          fill: '#000',
-          stroke: '',
-          charSpacing: 50,
-          width: 1200
-        }
-      )
-      let aboutGroup = new fabric.Group([aboutText, aboutDescription], {})
-      aboutGroup.set('selectable', false)
-      this.canvas.add(aboutGroup)
-    },
-    renderTemplateMyVisitors() {
-      const myVisitorsText = new fabric.Text(`My Visitors`, {
-        id: 'myVisitorsText',
-        fontFamily: this.canvasData.style.font,
-        fontSize: 128,
-        textAlign: 'left',
-        left: 1500,
-        top: 1650,
-        fill: '#000',
-        stroke: '',
-        charSpacing: 50
-      })
-      const myVisitorsDescription = new fabric.Textbox(
-        `About ${this.websiteData.description}`,
-        {
-          id: 'myVisitorsDescription',
-          fontFamily: 'gill-sans-medium',
-          fontSize: 50,
-          textAlign: 'left',
-          left: 1500,
-          top: 1900,
-          fill: '#000',
-          stroke: '',
-          charSpacing: 50,
-          width: 850
-        }
-      )
-      let myVisitorsGroup = new fabric.Group(
-        [myVisitorsText, myVisitorsDescription],
-        {}
-      )
-      myVisitorsGroup.set('selectable', false)
-      this.canvas.add(myVisitorsGroup)
-    },
-    renderTemplateFooter() {
-      const footerHeight = 270
-      const footerBackground = new fabric.Rect({
-        left: 0,
-        top: 0,
-        width: this.image.width,
-        height: footerHeight,
-        fill: 'rgba(0,0,0,1)'
-      })
-      const urlNoProtocol = this.websiteData.url.replace(/^https?\:\/\//i, '')
-      const addressText = new fabric.Text(urlNoProtocol, {
-        id: 'footerText',
-        fontFamily: 'gill-sans-medium',
-        fontSize: 50,
-        textAlign: 'center',
-        left: 0,
-        top: 0,
-        fill: '#FFF',
-        stroke: '',
-        charSpacing: 100,
-        width: footerBackground.width
-      })
-      const emailText = new fabric.Text(this.websiteData.email, {
-        id: 'footerText',
-        fontFamily: 'gill-sans-medium',
-        fontSize: 50,
-        textAlign: 'center',
-        left: 0,
-        top: 140,
-        fill: '#FFF',
-        stroke: '',
-        charSpacing: 100,
-        width: footerBackground.width
-      })
-
-      // footerText.scaleToWidth(footerBackground.width / 2, true)
-
-      let positionAddressObject = getPosition(
-        this.image.width,
-        footerBackground.height,
-        'bottomLeft',
-        100,
-        'x',
-        'y'
-      )
-
-      let positionEmailObject = getPosition(
-        this.image.width,
-        footerBackground.height,
-        'bottomRight',
-        100,
-        'x',
-        'y'
-      )
-
-      addressText.setPositionByOrigin(
-        positionAddressObject.coordinates,
-        positionAddressObject.originX,
-        positionAddressObject.originY
-      )
-
-      emailText.setPositionByOrigin(
-        positionEmailObject.coordinates,
-        positionEmailObject.originX,
-        positionEmailObject.originY
-      )
-
-      //emailText.set
-
-      let footerGroup = new fabric.Group(
-        [footerBackground, addressText, emailText],
-        {}
-      )
-      footerGroup.set('top', this.image.height - footerHeight)
-      footerGroup.set('selectable', false)
-
-      this.canvas.add(footerGroup)
     },
     deactivateAll() {
       return new Promise(resolve => {
@@ -1239,7 +985,7 @@ export default {
       // Go to step 3 (final step & download page)
       this.nextStepAction().then(() => {
         // this.$router.push({ query: { step: this.step, name: this.fileName } })
-        this.$router.push('/download')
+        this.$router.push({ path: 'download', query: { name: this.fileName } })
         this.$scrollTo('#__nuxt', 0, { force: true })
       })
     },
@@ -1261,10 +1007,13 @@ export default {
         }
       }  */
       this.deactivateAll().then(() => {
+        // Need to add watermark before download
+        this.addWatermaker()
         this.saveImage()
         this.$emit('onSubmitForm')
       })
     },
+    addWatermaker() {},
     bindEvents() {
       this.canvas.on('object:selected', options => {
         this.updateObjectControlIcons(options)

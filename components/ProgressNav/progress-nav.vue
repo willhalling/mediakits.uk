@@ -87,7 +87,7 @@
 </template>
 
 <script>
-// import jsPDF from 'jspdf';
+import { mapGetters, mapActions } from 'vuex'
 
 if (process.browser) {
   const jsPDF = require('jspdf')
@@ -129,16 +129,30 @@ export default {
   },
   mounted() {},
   methods: {
+    ...mapActions({
+      nextStepAction: 'global/nextStepAction',
+      previousStepAction: 'global/previousStepAction'
+    }),
     onPrevious() {
-      this.$emit('progress-previous')
+      this.previousStepAction().then(() => {
+        if (this.step === 1) {
+          this.$router.push('/')
+        }
+        if (this.step === 2) {
+          this.$router.push('/maker')
+        }
+        this.$scrollTo('#__nuxt', 0, { force: true })
+      })
     },
     onNext() {
       if (this.step === 2) {
         this.$store.commit('global/updateLoading', true)
-      }
-      setTimeout(() => {
+        this.$store.commit('user/updateExistingUser', true)
         this.$emit('progress-next')
-      }, 500)
+      }
+      this.nextStepAction().then(() => {
+        this.$router.push('/maker')
+      })
     },
     dataURLtoBlob(dataurl) {
       let arr = dataurl.split(','),
@@ -153,20 +167,14 @@ export default {
     },
     save() {
       const downloadImage = sessionStorage.getItem('gt_canvas_img')
-      //const a = document.createElement('a')
-      //const blob = this.dataURLtoBlob(downloadImage)
       if (process.browser) {
         const jsPDF = require('jspdf')
         const pdf = new jsPDF('p', 'mm', 'a4')
         const width = pdf.internal.pageSize.getWidth()
         const height = pdf.internal.pageSize.getHeight()
-        console.log('pdf width height', width, height)
         pdf.addImage(downloadImage, 'JPEG', 0, 0, width, height)
-        pdf.save('download.pdf')
+        pdf.save(`${this.imageSlug}.pdf`)
       }
-      //a.href = window.URL.createObjectURL(blob)
-      //a.download = `${this.imageSlug}.jpeg`
-      //a.click()
     },
     saveImage() {
       const downloadImage = sessionStorage.getItem('gt_canvas_img')

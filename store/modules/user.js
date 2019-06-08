@@ -3,19 +3,73 @@ import ls from 'local-storage'
 const state = {
   // Cache version
   version: '',
-  websiteData: {
-    title: 'Joanna Bloggs',
-    url: 'http://www.joannabloggs.com',
-    email: 'hello@joannabloggs.com',
-    description:
-      "I'm Katy, 30. I am married to Thomas and we " +
-      'have one daughter, Daisy Blue. I love to share ' +
-      'my views on parenting, products, family life, ' +
-      'personal finance & more. I enjoy helping people ' +
-      'make money, save money and change their lives ' +
-      "for the better. I'm based in Essex and my posts " +
-      'appeal to women aged 25-44 who want to ' +
-      'manage their finances well.',
+  website: {
+    data: {
+      title: {
+        name: 'Name',
+        value: 'Joanna Bloggs',
+        type: 'text'
+      },
+      url: {
+        name: 'url',
+        value: 'http://www.joannabloggs.com',
+        type: 'text'
+      },
+      email: {
+        name: 'email',
+        value: 'hello@joannabloggs.com',
+        type: 'email'
+      },
+      aboutTitle: {
+        name: 'About Title',
+        value: 'About Joanna Bloggs',
+        type: 'text'
+      },
+      aboutDescription: {
+        name: 'About text',
+        value:
+          "I'm Katy, 30. I am married to Thomas and we " +
+          'have one daughter, Daisy Blue. I love to share ' +
+          'my views on parenting, products, family life, ' +
+          'personal finance & more. I enjoy helping people ' +
+          'make money, save money and change their lives ' +
+          "for the better.'",
+        type: 'textarea'
+      },
+      myVisitorsTitle: {
+        name: 'My Visitors Title',
+        value: 'My Visitors',
+        type: 'text'
+      },
+      myVisitorsDescription: {
+        name: 'My Visitors text',
+        value: '72% female \n' + '49% aged 25-44',
+        type: 'textarea'
+      },
+      theBlogTitle: {
+        name: 'The Blog Title',
+        value: 'The Blog',
+        type: 'text'
+      },
+      theBlogDescription: {
+        name: 'The Blog Description',
+        value: 'I started the blog twos years ago and in this time ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.',
+        type: 'textarea'
+      },
+      myStatsTitle: {
+        name: 'My Stats Title',
+        value: 'My Stats',
+        type: 'text'
+      },
+      myStatsDescription: {
+        name: 'My Visitors text',
+        value:
+          '25k+ social media followers \n' +
+          '25k+ monthly visitors \n' +
+          '35k+ monthly page views \n',
+        type: 'textarea'
+      }
+    },
     stats: {
       social_media: {
         facebook: {
@@ -75,9 +129,8 @@ const state = {
 const actions = {
   deleteImageAction: ({ commit }, id) => {
     commit('deleteImage', id)
-  },
+  }
 }
-
 
 const mutations = {
   initialiseStore(state) {
@@ -115,8 +168,8 @@ const mutations = {
     state.config.existingUser = existingUser
   },
   deleteImage(state, id) {
-    const newImages = state.images .filter(item => {
-      return item.id != id;
+    const newImages = state.images.filter(item => {
+      return item.id != id
     })
     state.images = newImages
   },
@@ -166,9 +219,9 @@ const getters = {
   existingUser: state => {
     return state.config.existingUser
   },
-  websiteData: state => {
-    return state.websiteData
-  },
+  website: state => {
+    return state.website
+  }
 }
 
 export default {

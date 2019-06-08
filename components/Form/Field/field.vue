@@ -5,13 +5,15 @@
       :style="fieldGroupStyles"
       @click="onClick"
     >
-      <div class="field__header">
-        <label class="field__label">
-          <span 
-            v-if="required" 
+      <div
+        v-if="name"
+        class="field__header">
+        <label class="field__label">{{ name }}
+          <span
+            v-if="required"
             class="required">*</span>
-          <span 
-            v-if="isRangeSlider" 
+          <span
+            v-if="isRangeSlider"
             class="field__rangeText gt-lowercase">({{ value }})</span>
         </label>
       </div>
@@ -23,7 +25,7 @@
         :style="styles"
         class="field__input"
         spellcheck="false"
-        rows="2"
+        rows="5"
         @input="onInput($event.target.value)"
         @focus="isActive = true"
         @blur="isActive = false"

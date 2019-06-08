@@ -155,6 +155,7 @@ $button-pulse-timing: 1.5s;
   border-radius: $border-radius;
   width: 100%;
   font-weight: bold;
+  position: relative;
 
   &--round {
     border-radius: 50%;

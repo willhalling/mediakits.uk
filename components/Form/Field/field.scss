@@ -10,7 +10,6 @@ $range-slider-size: 25px;
     margin-bottom: $padding;
     background-color: $white;
     border: 1px solid $black;
-    border-radius: $border-radius;
     font-family: $serifFont;
     padding: $padding / 2 $padding / 2 $padding $padding / 2;
     transition: all $transition;
@@ -31,14 +30,14 @@ $range-slider-size: 25px;
 
   &__header {
     display: flex;
-    margin-bottom: $padding / 4;
+    margin-bottom: $padding / 2;
   }
 
   &__label {
-    color: $white;
+    color: $black;
     font: {
       size: $text-xs;
-      weight: 500;
+      weight: bold;
     }
     margin-bottom: $padding / 4;
     text-transform: uppercase;

@@ -5,7 +5,7 @@
         <transition name="slide-fade-one">
           <div v-if="show.hero.heading" >
             <h1 class="hero__heading">Media Kit Maker</h1>
-            <p class="hero__description">Introducing Easy Media Kit – an online media kit maker for your business. It’s super easy to generate a professional media kit for your website.
+            <p class="hero__description">Introducing Easy Media Kit – an online media kit maker for your business. It’s super easy to generate a professional media kit for your brand.
               <a
                 v-scroll-to="'#urlForm'"
                 class="hero__link"

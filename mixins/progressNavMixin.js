@@ -11,22 +11,5 @@ export const progressNavMixin = {
       }
       return false
     }
-  },
-  methods: {
-    previousStep() {
-      this.previousStepAction().then(() => {
-        this.$router.push({ query: { step: this.step } })
-        this.$scrollTo('#__nuxt', 0, { force: true })
-      })
-    },
-    nextStep() {
-      if (this.step === 2) {
-        this.$store.commit('user/updateExistingUser', true)
-        return this.$refs.canvasApp.parentGenerateImage()
-      }
-      this.nextStepAction().then(() => {
-        this.$router.push({ query: { step: this.step } })
-      })
-    }
   }
 }

@@ -35,14 +35,15 @@ export default {
   border: 1px solid $white;
   &__item {
     display: flex;
-    color: $white;
+    color: $black;
     padding: $padding;
+    background-color: #dedede;
     border-bottom: 1px solid $white;
     &:last-child {
       border: 0;
     }
     &--odd {
-      background-color: $primary-background;
+      background-color: $white;
     }
   }
   &__key {

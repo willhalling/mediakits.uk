@@ -34,3 +34,7 @@ export function insertLines(str, noOfWords = 3) {
   }
   return res
 }
+
+export function urlNoProtocol(string) {
+  return string.replace(/^https?\:\/\//i, '')
+}

@@ -87,8 +87,8 @@ export default {
   &__field {
     width: 80%;
     .field__group {
-      border-top-right-radius: 0;
-      border-bottom-right-radius: 0;
+      border-top-left-radius: $border-radius;
+      border-bottom-left-radius: $border-radius;
       margin-bottom: 0;
     }
   }
