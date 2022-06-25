@@ -24,7 +24,7 @@
     "firebase": "^5.9.2",
     "local-storage": "^1.4.2",
     "netlify-cli": "^2.11.5",
-    "node-fetch": "^2.3.0",
+    "node-fetch": "^2.6.7",
     "nuxt": "^2.4.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
